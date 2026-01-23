@@ -2,7 +2,7 @@
   "name": "backend-practice-project",
   "version": "1.0.0",
   "description": "",
-  
+  "types": "modules",
   "main": "index.js",
   "scripts": {
     "dev":"nodemon index.js",

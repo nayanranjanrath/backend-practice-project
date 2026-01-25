@@ -1,4 +1,5 @@
 const{Schema,Model}=require('express')
+const bcrypr= require('bcrypt')
 const { model, default: mongoose } = require('mongoose')
 const userschema = new Schema(
     {
@@ -38,6 +39,18 @@ avatar:{
     },
 {timestamp:true }
 )
+userschema.pre("save",async function (next) {
+    if(this.ismodified("password")){
+        this.password=await bcrypr.hash(this.password)
+        next()
+    } 
+        return next()
+})
+userschema.method.ispasswordcorrect=async function (password) {
+    return await bcrypr.compare(password,this.password)
+}
+
+
 const usermodel = model("User",userschema)
 
 module.exports=usermodel;

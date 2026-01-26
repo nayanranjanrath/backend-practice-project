@@ -1,7 +1,7 @@
 
 
 const{Schema,model}=require('mongoose')
-const bcrypr= require('bcrypt')
+const bcrypt= require('bcrypt')
 // const { model, default: mongoose } = require('mongoose')
 const userschema = new Schema(
     {
@@ -25,31 +25,34 @@ type:String,
 },
 password:{
 type:String,
-
-
-},
-allies:{
-
-type:Schema.type.objectid,
-Ref:"User"
-
+required:true
 
 },
+// allies:{
+
+// type:Schema.type.objectid,
+// Ref:"User"
+
+
+// },
 avatar:{
     type:String
 }
     },
-{timestamp:true }
+{timestamps:true,
+    
+ }
+
 )
-userschema.pre("save",async function (next) {
-    if(this.ismodified("password")){
-        this.password=await bcrypr.hash(this.password)
-        next()
+userschema.pre("save",async function () {
+    if(this.isModified("password")){
+        this.password=await bcrypt.hash(this.password,10)
+    
     } 
-        return next()
+    
 })
-userschema.method.ispasswordcorrect=async function (password) {
-    return await bcrypr.compare(password,this.password)
+userschema.methods.ispasswordcorrect=async function (password) {
+    return await bcrypt.compare(password,this.password)
 }
 
 

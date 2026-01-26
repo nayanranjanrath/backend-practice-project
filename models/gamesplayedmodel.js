@@ -1,5 +1,5 @@
-const{Schema,Model}=require('express')
-const { model, default: mongoose } = require('mongoose')
+const{Schema,model}=require('mongoose')
+// const { model, default: mongoose } = require('mongoose')
 const gamesplayedschema  = new Schema(
     {
 gamename:{
@@ -27,6 +27,6 @@ review:{
 }
 
     },{timestamps:true })
-const  gamesplayedmodel= Model("gamesplayed",gamesplayedschema)
+const  gamesplayedmodel= model("gamesplayedmodel",gamesplayedschema)
 
 module.exports= gamesplayedmodel;

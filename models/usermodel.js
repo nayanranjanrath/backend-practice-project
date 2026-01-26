@@ -1,6 +1,8 @@
-const{Schema,Model}=require('express')
+
+
+const{Schema,model}=require('mongoose')
 const bcrypr= require('bcrypt')
-const { model, default: mongoose } = require('mongoose')
+// const { model, default: mongoose } = require('mongoose')
 const userschema = new Schema(
     {
 username:{
@@ -51,6 +53,6 @@ userschema.method.ispasswordcorrect=async function (password) {
 }
 
 
-const usermodel = Model("User",userschema)
+const usermodel = model("usermodel",userschema)
 
 module.exports=usermodel;

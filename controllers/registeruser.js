@@ -10,6 +10,17 @@ try{
         message: "Username, email, and password are required"
       });
     }
+const existinguser=usermodel.find(
+  {$or: ({email},{username}  ) }
+)
+if(existinguser){
+  res.status(300).json({success:"false",
+    message:"user alrady exist" ,
+  })
+}
+
+
+
 const user = new usermodel({username,email,fullname,password,avatar})   
  await user.save();
 

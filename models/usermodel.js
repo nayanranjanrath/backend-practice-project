@@ -28,13 +28,13 @@ type:String,
 required:true
 
 },
-// allies:{
+allies:{
 
-// type:Schema.type.objectid,
-// Ref:"User"
+type:Schema.Types.ObjectId,
+ref:"usermodel"
 
 
-// },
+},
 avatar:{
     type:String
 }

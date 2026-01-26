@@ -27,6 +27,6 @@ review:{
 }
 
     },{timestamps:true })
-const  gamesplayedmodel= model("gamesplayed",gamesplayedschema)
+const  gamesplayedmodel= Model("gamesplayed",gamesplayedschema)
 
 module.exports= gamesplayedmodel;

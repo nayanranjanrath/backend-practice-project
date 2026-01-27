@@ -28,7 +28,7 @@ const user = new usermodel({username,email,fullname,password,avatar})
  
 }
 catch(error){  console.error(error);
-    return res.status(500).json({
+    return res.status(409).json({
       message: "Internal server error"
     });
   

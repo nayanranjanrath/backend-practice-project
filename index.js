@@ -1,3 +1,8 @@
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
+// ... now your mongoose.connect code below
+
 const express = require('express');
 const app =express();
 const port =3000;

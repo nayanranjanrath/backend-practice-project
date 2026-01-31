@@ -2,6 +2,10 @@
 
 const{Schema,model}=require('mongoose')
 const bcrypt= require('bcrypt')
+const jwt =require('jsonwebtoken');
+const access_secrate="fhdsgierufivubherigv_friyg";
+
+const refresh_secrate ="lahgjsdhgvajsghvshdvbalisa__lkjbfv";
 // const { model, default: mongoose } = require('mongoose')
 const userschema = new Schema(
     {
@@ -37,7 +41,11 @@ ref:"usermodel"
 },
 avatar:{
     type:String
+},
+refreshtoken:{
+    type:String
 }
+
     },
 {timestamps:true,
     
@@ -53,6 +61,25 @@ userschema.pre("save",async function () {
 })
 userschema.methods.ispasswordcorrect=async function (password) {
     return await bcrypt.compare(password,this.password)
+}
+
+userschema.methods.generateaccesstoken=function(){
+return jwt.sign({
+    _id:this._id,
+},access_secrate, {
+    expiresIn:"1d"
+}
+)
+
+}
+userschema.methods.generaterefreshtoken=function(){
+return jwt.sign({
+    _id:this._id,
+},refresh_secrate, {
+    expiresIn:"10d"
+}
+)
+
 }
 
 

@@ -63,23 +63,23 @@ userschema.methods.ispasswordcorrect=async function (password) {
     return await bcrypt.compare(password,this.password)
 }
 
-userschema.methods.generateaccesstoken=function(){
-return jwt.sign({
+userschema.methods.generateaccesstoken= async function(){
+const accesstoken =await  jwt.sign({
     _id:this._id,
 },access_secrate, {
     expiresIn:"1d"
 }
 )
-
+return accesstoken
 }
-userschema.methods.generaterefreshtoken=function(){
-return jwt.sign({
+userschema.methods.generaterefreshtoken=async function(){
+ const refreshtoken=await  jwt.sign({
     _id:this._id,
 },refresh_secrate, {
     expiresIn:"10d"
 }
 )
-
+return refreshtoken
 }
 
 

@@ -2,14 +2,18 @@ const jwt =require("jsonwebtoken")
 const usermodel =require("../models/usermodel")
 const verifayjwt =async(req,res,next)=>{
 try{
-const token =req.cookies?.accesstoken||req.header("authorization")?.replace("bearer","")
+    console.log("enter the auth middlrware ")
+const token = req.cookies?.accesstoken||req.header("Authorization")?.replace("Bearer ", "")
+console.log("tryed to get token ")
 if(!token){
-return res.send("accesscode is wrong").json({
+    console.error("accesscode is wrong");
+    
+return res.json({
     success:false,message:"access token is wrong "
 })
 
 }
-const decodedtoken =jwt.verify(token,"fhdsgierufivubherigv_friyg")
+const decodedtoken = await jwt.verify(token,"lahgjsdhgvajsghvshdvbalisa__lkjbfv")
 const user =await usermodel.findById(decodedtoken?._id).select("-password -refreshtoken")
 if(!user){
     return res.status(200).json({success:falsed,reson:"accesstoken was not correct "})
@@ -18,7 +22,8 @@ req.user =user  //this will add a new fild user inside the req where all of our 
 next()
 }
 catch(error){
-return res.jaon({success:false,reson:"you are inside catch block of the auth middleware"})
+    console.log(error)
+return res.json({success:false,reson:"you are inside catch block of the auth middleware"})
 
 
 }

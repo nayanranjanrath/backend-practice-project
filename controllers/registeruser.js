@@ -1,6 +1,6 @@
 
 const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
-
+const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
 const generateaccessandrefreshtokens=async(usreid)=>{
 try{
@@ -104,17 +104,66 @@ try {
         secure: true
     
     }
-  return res.status(200).clearcookie("accesstoken",option).clearcookie("refreshtoken",option).json({success:true,reson:"user is successfilly loged out "})
+  return res.status(200).clearCookie("accesstoken",option).clearCookie("refreshtoken",option).json({success:true,reson:"user is successfilly loged out "})
   
   
 } catch (error) {
+  console.log(error)
   return res.status(400).json({success:false,reson:"the logout user failed "})
 }
 
 }
+const refreshaccesstokenofuser=async(req,res)=>{
+try{
+const incomingrefreshtoken=req.cookies.refreshtoke||req.body.refreshtoken;
+if(!incomingrefreshtoken){
+  console.log("refres token is required ")
+  return res.status(400).json({
+success:false,
+reson:"refresh token is not there "
+
+  })
+}
+const decodedtoken =await jwt.verify(incomingrefreshtoken,"lahgjsdhgvajsghvshdvbalisa__lkjbfv")
+if(!decodedtoken){
+  console.log("decoding of token failed")
+console.log("refreshtoken is wrong")
+return res.status(400).json({success:true,
+  reson:"the given refreshtoken is wrong "
+})
+}
+const user =await usermodel.findById(decodedtoken._id)
+if(!user){
+console.log("invalid user")
+return res.status(400).json({success:false,
+  reson:"user is invalid "
+})
+}
+if(incomingrefreshtoken!==user?.refreshtoken){
+console.log("refresh token not match with data base token")
+return res.status(400).json({success:true,reson:"given refresh token not matche with the given token "})
+
+}
+const{accesstoken,refreshtoken}=await generateaccessandrefreshtokens(user._id)
+const option= {
+  httpOnly: true, // Security: prevents frontend JS from reading the cookie
+      secure: true
+  
+  }
+  return res.status(200).cookie("accesstoken",accesstoken,option).cookie("refreshtoken",refreshtoken,option).json({success:true})
+
+}
+catch(error){
+  console.log(error)
+  return res.status(400).json({success:false,
+    reson:"you are in the catch block "
+  })
+}
+
+
+}
 
 
 
 
-
-module.exports={registeruser,loginuser,logoutuser}
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser}

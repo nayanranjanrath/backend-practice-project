@@ -2,7 +2,7 @@ const express=require ('express')
 const upload =require("../middlewares/multer.middleware.js")
 const authuser =require("../middlewares/authuser.middleware.js")
 const router = express.Router()
-const {registeruser,loginuser,logoutuser}=require("../controllers/registeruser")
+const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser}=require("../controllers/registeruser")
 
 router.post('/register',upload.fields([{
 name:"avatar",
@@ -14,4 +14,5 @@ name:"avatar",
     ,registeruser)
 router.post('/login',loginuser)
 router.post('/logout',authuser,logoutuser)
+router.post('/rejoin',refreshaccesstokenofuser)
 module.exports=router

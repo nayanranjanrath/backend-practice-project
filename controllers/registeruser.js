@@ -8,7 +8,8 @@ const user= await usermodel.findById(usreid)
 const accesstoken = await user.generateaccesstoken()
 const refreshtoken =await  user.generaterefreshtoken()
 user.refreshtoken=refreshtoken
-await user.save({validatebeforesave:false})
+
+await user.save({ validateBeforeSave: false })
 
 return{accesstoken,refreshtoken}
 }
@@ -88,6 +89,7 @@ try {
       secure: true
   
   }
+  console.log(refreshtoken)
   return res.status(200).cookie("accesstoken",accesstoken,option).cookie("refreshtoken",refreshtoken,option).json({success:true})
 } catch (error) {
   console.log(error)
@@ -114,8 +116,8 @@ try {
 
 }
 const refreshaccesstokenofuser=async(req,res)=>{
-try{
-const incomingrefreshtoken=req.cookies.refreshtoke||req.body.refreshtoken;
+try{console.log("inside the controler")
+const incomingrefreshtoken=req.cookies?.refreshtoken||req.body.refreshtoken;
 if(!incomingrefreshtoken){
   console.log("refres token is required ")
   return res.status(400).json({
@@ -128,7 +130,7 @@ const decodedtoken =await jwt.verify(incomingrefreshtoken,"lahgjsdhgvajsghvshdvb
 if(!decodedtoken){
   console.log("decoding of token failed")
 console.log("refreshtoken is wrong")
-return res.status(400).json({success:true,
+return res.status(400).json({success:false,
   reson:"the given refreshtoken is wrong "
 })
 }
@@ -139,9 +141,12 @@ return res.status(400).json({success:false,
   reson:"user is invalid "
 })
 }
+// console.log(incomingrefreshtoken)
+// console.log(user?.refreshtoken)
 if(incomingrefreshtoken!==user?.refreshtoken){
+
 console.log("refresh token not match with data base token")
-return res.status(400).json({success:true,reson:"given refresh token not matche with the given token "})
+return res.status(400).json({success:false,reson:"given refresh token not matche with the stored token "})
 
 }
 const{accesstoken,refreshtoken}=await generateaccessandrefreshtokens(user._id)
@@ -151,6 +156,7 @@ const option= {
   
   }
   return res.status(200).cookie("accesstoken",accesstoken,option).cookie("refreshtoken",refreshtoken,option).json({success:true})
+
 
 }
 catch(error){

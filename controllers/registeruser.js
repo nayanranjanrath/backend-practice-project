@@ -169,41 +169,42 @@ catch(error){
 
 
 }
-const getuserprofile =async(req,ref)=>{
+const getuserprofile =async(req,res)=>{
 try {
-  const username =req.params
+  const {username }=req.params
   if(!username){
   console.log("user name is required in url")
   return res.status(400).json({success:false,reson:"the username  is not found  "})
   }
-  const user =await usermodel.findOne({username})
+  const user =await usermodel.findOne({username:username})
   
   const channel =await usermodel.aggregate([
   {$match:{
-  username:username?.lowercase()//here we check for the data wher user name match 
+  username:username?.toLowerCase()//here we check for the data wher user name match 
   
-  },
-  $lookup:{
-  from:"followersandfollowedtomodel",
+  }},
+ { $lookup:{
+  from:"followersandfollowedtomodels",
   localField:"_id",
   foreignField:"channels",
   as:"followers"
   
-  },
-  $lookup:{
-  from:"followersandfollowedtomodel",
+  }},
+ { $lookup:{
+  from:"followersandfollowedtomodels",
   localField:"_id",
-  foreignField:"follower",
+  foreignField:"followerlist",
   as:"followed"
-  },
-  $addFields:{
-  followerscount:{$size:"followers" },
+  }},
+  {$addFields:{
+  followerscount:{$size:{$ifNull: ["$followersList", []]} },
   isfollowed:{$cond:{
-  if:{$in:[user._id,"$followers.follower"]}
-  
+  if:{$in:[user._id,"$followers.follower"]},
+  then:true,
+  else:false
   }}
-  },
-  $project:{
+  }},
+ { $project:{
   username:1,
   followerscount:1,
   avatar:1,
@@ -211,20 +212,20 @@ try {
   timestamps:1,
   isfollowed:1
   }
-  
-  
-  
   }
   
   
+  
+  
+  
   ])
-  if(!channel?.length()){
+  if(!channel?.length){
   console.log("channel dont exist may be user name is wrong  ")
   return res.status(400).json({success:false,reson:"may be the user name given is wrong "})
   
   }
   console.log("every thing is fine and our controllerb is working fine ")
-  return res.status(200).json({success:true ,reson:"working fine "})
+  return res.status(200).json({channel:channel[0]})
   
 } catch (error) {
   console.log(error)

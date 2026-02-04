@@ -2,6 +2,7 @@
 const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
 const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
+const followersandfollowedtomodel = require("../models/followers.model.js")
 const generateaccessandrefreshtokens=async(usreid)=>{
 try{
 const user= await usermodel.findById(usreid)
@@ -168,8 +169,70 @@ catch(error){
 
 
 }
+const getuserprofile =async(req,ref)=>{
+try {
+  const username =req.params
+  if(!username){
+  console.log("user name is required in url")
+  return res.status(400).json({success:false,reson:"the username  is not found  "})
+  }
+  const user =await usermodel.findOne({username})
+  
+  const channel =await usermodel.aggregate([
+  {$match:{
+  username:username?.lowercase()//here we check for the data wher user name match 
+  
+  },
+  $lookup:{
+  from:"followersandfollowedtomodel",
+  localField:"_id",
+  foreignField:"channels",
+  as:"followers"
+  
+  },
+  $lookup:{
+  from:"followersandfollowedtomodel",
+  localField:"_id",
+  foreignField:"follower",
+  as:"followed"
+  },
+  $addFields:{
+  followerscount:{$size:"followers" },
+  isfollowed:{$cond:{
+  if:{$in:[user._id,"$followers.follower"]}
+  
+  }}
+  },
+  $project:{
+  username:1,
+  followerscount:1,
+  avatar:1,
+  fullname:1,
+  timestamps:1,
+  isfollowed:1
+  }
+  
+  
+  
+  }
+  
+  
+  ])
+  if(!channel?.length()){
+  console.log("channel dont exist may be user name is wrong  ")
+  return res.status(400).json({success:false,reson:"may be the user name given is wrong "})
+  
+  }
+  console.log("every thing is fine and our controllerb is working fine ")
+  return res.status(200).json({success:true ,reson:"working fine "})
+  
+} catch (error) {
+  console.log(error)
+return res.status(400).json({success:false,reson:"you are in side the catch folder of controller "})
+
+}
+}
 
 
 
-
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser}
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile}

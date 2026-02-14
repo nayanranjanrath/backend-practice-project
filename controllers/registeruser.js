@@ -236,11 +236,24 @@ return res.status(400).json({success:false,reson:"you are in side the catch fold
 }
 const uploadpost =async(req,res)=>{
 try {
-  const{post,title,description}=req.body
-if(!post||!title){
-console.log("post and tittles are required")
+  
+  const{tittle,description}=req.body
+  if (!tittle) {
+    console.log("tittle is required ")
+    return res.status(400).json({success:false,reson:"tittle is required for posting "})
+  }
+const postlocation=req.files?.postcontent[0]?.path;
+const postcontent =await uploadoncloudinary(postlocation)
 
+
+
+if(!postcontent||!tittle){
+console.log("post and tittles are required")
+return res.status(400).json({success:false,reson:"post and tittle is required "})
 }
+const post = new postmodel({tittle,description,postcontent:postcontent?.url||""})   
+ await post.save();
+return res.status(200).json({success:true ,reson:"post is successfully done ",url:post})
 
 
 } catch (error) {

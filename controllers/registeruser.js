@@ -3,6 +3,7 @@ const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
 const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
+const postmodel=require("../models/postmodel.js")
 const generateaccessandrefreshtokens=async(usreid)=>{
 try{
 const user= await usermodel.findById(usreid)
@@ -233,7 +234,27 @@ return res.status(400).json({success:false,reson:"you are in side the catch fold
 
 }
 }
+const uploadpost =async(req,res)=>{
+try {
+  const{post,title,description}=req.body
+if(!post||!title){
+console.log("post and tittles are required")
+
+}
+
+
+} catch (error) {
+  console.log ("you are in the catch block")
+  console.log(error)
+  return res.status(400).json({success:false,reson:"you are in side the catch block"})
+}
+
+
+}
 
 
 
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile}
+
+
+
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost}

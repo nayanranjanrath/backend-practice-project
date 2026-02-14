@@ -12,7 +12,7 @@ type:String,
 required:true,
 },
 postby:{
-type:Schema.type.objectid,
+type:Schema.Types.ObjectId,
 ref:"User"
 
 },

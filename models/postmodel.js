@@ -2,7 +2,7 @@ const{Schema,model}=require('mongoose')
 // const { model, default: mongoose } = require('mongoose')
 const postschema  = new Schema(
     {
-post:{
+postcontent:{
 type:String,
 required:true,
 

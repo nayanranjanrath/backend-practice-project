@@ -264,10 +264,64 @@ return res.status(200).json({success:true ,reson:"post is successfully done ",ur
 
 
 }
+const myposts =async(req,res)=>{
+try {
+  const {username }=req.params
+ if(!username){
+  console.log("user name is required in url")
+  return res.status(400).json({success:false,reson:"the username  is not found  "})
+  }
+  const user =await usermodel.findOne({username:username})
+  const posts =await usermodel.aggregate([
+  {$match:{
+  username:username?.toLowerCase()//here we check for the data wher user name match 
+  
+  }},
+ { $lookup:{
+  from:"postmodel",
+  localField:"_id",
+  foreignField:"postby",
+  as:"posts"
+  
+  }},
+ 
+  {$addFields:{
+  posts:{$ifNull: ["$posts", []]} }
+ 
+  },
+ { $project:{
+  username:1,
+  followerscount:1,
+  avatar:1,
+  post:1,
+  
+  isfollowed:1
+  }
+  }
+  
+  
+  
+  
+  
+  ])
+if(!posts){
+  console.log("therre are no posts you are in if satatement")
+  return res.status(400).json({success:false,reson:"there are no posts "})
+}
+ console.log("every thing is fine and our controllerb is working fine ")
+  return res.status(200).json({posts:posts[0]})
+
+
+} catch (error) {
+  console.log("you are inside the catch block")
+  return res.status(500).json({success:false,reson:"youn are inside the catch block"})
+}
+
+
+}
 
 
 
 
 
-
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost}
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts}

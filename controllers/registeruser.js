@@ -358,8 +358,33 @@ return res.status(200).json({success:true,reson:"you follwed successfully waitin
 }
 
 }
+const allieslist =async(req,res)=>{
+  try {
+const username=req.params
+if (!username) {
+  console.log("username is required ")
+  return res.status(400).json({success:false,reson:"username is required which is missing "})
+}
+const user =await usermodel.findOne(username)
+if (!user) {
+  console.log("invaliod user")
+  return res.status(400).json({success:false,reson:"user is invalid  "})
+}
+const allies =await alliesmodel.find({$or:[{allie1:user},{allie2:user}]})
+if (!allies) {
+  console.log("you dont have any allies ")
+  return res.status(400).json({success:false,reson:"you dont have any allies"})
+}
+console.log("every thing is fine and printing the allies list ")
+return res.status(200).json({success:true,allieslist:allies })
+    
+  } catch (error) {
+    console.log("you are inside the catch block ")
+    console.log(error)
+    return res.status(500).json({success:false,reson:"you are in side the catch block "})
+  }
+}
 
 
 
-
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow}
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist}

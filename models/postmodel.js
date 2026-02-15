@@ -1,4 +1,5 @@
 const{Schema,model}=require('mongoose')
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 // const { model, default: mongoose } = require('mongoose')
 const postschema  = new Schema(
     {
@@ -27,6 +28,7 @@ likes:{
 }
 
     },{timestamps:true })
+    postschema.plugin(aggregatePaginate)
 const  postmodel= model("postmodel",postschema)
 
 module.exports= postmodel;

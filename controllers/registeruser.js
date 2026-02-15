@@ -3,7 +3,9 @@ const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
 const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
+const alliesmodel =require("../models/allais.model.js")
 const postmodel=require("../models/postmodel.js")
+// const { trusted } = require("mongoose")
 const generateaccessandrefreshtokens=async(usreid)=>{
 try{
 const user= await usermodel.findById(usreid)
@@ -319,9 +321,43 @@ if(!posts){
 
 
 }
+const follow =async(req,res)=>{
+try {
+  const channelname =req.params;
+const username=req.body
+if(!channelname||!username){
+console.log("user and channel is required for the follow ")
+return res.status(400).json({success:false,reson:"user or channel is not there "})
+
+}
+if(channelname===username){console.log("you can not follow youer self ")
+  return res.status(400).json({success:false,reson:"you cant follow your self "})
+}
+const user =await usermodel.findOne(username)
+const channel =await usermodel.findOne(channelname)
+ const alredyfolllowed= await followersandfollowedtomodel.findOne({follower:user,channels:channel})
+if(alredyfolllowed){console.log("you alredy follow this channel")
+  return res.status(400).json("you alredy follow this channel")
+}
+await followersandfollowedtomodel.create({follower:user,channels:channel})
+console.log("saved the follower in data base")
+const ismutual= await followersandfollowedtomodel.findOne({follower:channel,channels:user})
+if (ismutual) {
+  console.log("you are mutual followers ")
+  await alliesmodel.create({allie1:user,allie2:channel})
+  return res.status(200).json({success:true,reson:"you are now allies "})
+}
+console.log("you are not allies ")
+return res.status(200).json({success:true,reson:"you follwed successfully waiting for be an allie"})
+} catch (error) {
+  console.log("youn are inside the catch block")
+  console.log(error)
+  return res.status(500).json({success:false,reson:"you are inside the catch block "})
+}
+
+}
 
 
 
 
-
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts}
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow}

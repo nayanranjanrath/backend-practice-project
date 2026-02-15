@@ -196,11 +196,12 @@ try {
  { $lookup:{
   from:"followersandfollowedtomodels",
   localField:"_id",
-  foreignField:"followerlist",
+  foreignField:"follower",
   as:"followed"
   }},
   {$addFields:{
-  followerscount:{$size:{$ifNull: ["$followersList", []]} },
+  followerscount:{$size:{$ifNull: ["$followers", []]} },
+  following:{$size:{$ifNull: ["$followed", []]} },
   isfollowed:{$cond:{
   if:{$in:[user._id,"$followers.follower"]},
   then:true,
@@ -210,6 +211,7 @@ try {
  { $project:{
   username:1,
   followerscount:1,
+  following:1,
   avatar:1,
   fullname:1,
   timestamps:1,

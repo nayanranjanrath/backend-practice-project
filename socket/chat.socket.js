@@ -11,7 +11,7 @@ module.exports = (io) => {
     // Private message between two specific users
     socket.on("privateMessage", ({ senderId, receiverId, message }) => {
 
-      // 🔐 Only allow communication between these two users
+      //  Only allow communication between these two users
       const allowedUsers = ["user1", "user2"];
 
       if (

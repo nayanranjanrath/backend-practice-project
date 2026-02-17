@@ -400,8 +400,9 @@ if (!user) {
   if(!gamename||!numberoftimecompleated||!stars){console.log("game name and stars and number of time played is required ")
     return res.status(400).json({success:false,reson:"game name and stars and number of time played is required"})
   }
+  const gamenamelower=gamename.toLowerCase()
   const platformgeneral =platform.toLowerCase();
-const game = new gamesplayedmodel({gamename,numberoftimecompleated,platformgeneral,review,stars,user});
+const game = new gamesplayedmodel({gamenamelower,numberoftimecompleated,platformgeneral,review,stars,user});
 await game.save();
 console.log("game details are saved ")
 return res.status(200).json({success:true,reson:"game details are saved successfully "})
@@ -416,5 +417,50 @@ return res.status(500).json({success:false,reson:"you are in side the catch bloc
 
 }
 
+const searchgames =async(req,res)=>{
+try {
+  const gamename =req.params.gamename
+if(!gamename){console.log("gamename is required to find any details ")
+   return res.status(400).json({success:false,reson:"gamename is required to find any details "})
+}
+const rating =await gamesplayedmodel.aggregate([
+{
+$match:{
+gamenamelower:gamename?.toLowerCase()
 
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails }
+}
+
+},
+{
+$group:{
+_id:"$gamenamelower",
+averagestars:{$avg:"$stars"},
+totalRatings:{$sum:1}
+}
+
+}
+
+])
+if (rating.length===0) {
+  console.log("there is no review of this game yet be the first to post review of this game  ")
+  return res.status(200).json({success:true,reson:"there is no review of this game yet be the first to post review of this game"})
+}
+
+console.log("game review is find in database")
+return res.status(200).json({
+      gamename,
+      averageStars: rating[0].averagestars.toFixed(2),//this will round up the value upto 2 desimals 
+      totalRatings: rating[0].totalRatings})                                    
+
+
+} catch (error) {
+  console.log("you are inside the catch block ")
+  console.log(error)
+  return res.status(500).json({success:false,reson:"you are inside the catch block "})
+}
+
+}
+
+
+
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames }

@@ -200,9 +200,16 @@ try {
   foreignField:"follower",
   as:"followed"
   }},
+  { $lookup:{
+  from:"gamesplayedmodels",
+  localField:"_id",
+  foreignField:"user",
+  as:"numofgamesplayed"
+  }},
   {$addFields:{
   followerscount:{$size:{$ifNull: ["$followers", []]} },
   following:{$size:{$ifNull: ["$followed", []]} },
+  numofgamesplayed:{$size:{$ifNull: ["$numofgamesplayed", []]} },
   isfollowed:{$cond:{
   if:{$in:[user._id,"$followers.follower"]},
   then:true,
@@ -216,7 +223,8 @@ try {
   avatar:1,
   fullname:1,
   timestamps:1,
-  isfollowed:1
+  isfollowed:1,
+  numofgamesplayed:1
   }
   }
   

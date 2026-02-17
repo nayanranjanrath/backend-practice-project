@@ -2,6 +2,7 @@
 const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
 const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
+const gamesplayedmodel =require("../models/gamesplayedmodel.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
 const alliesmodel =require("../models/allais.model.js")
 const postmodel=require("../models/postmodel.js")
@@ -384,7 +385,36 @@ return res.status(200).json({success:true,allieslist:allies })
     return res.status(500).json({success:false,reson:"you are in side the catch block "})
   }
 }
+const gamedetails =async(req,res)=>{
+try {
+  const username =req.params
+const user =await usermodel.findOne(username)
+if (!user) {
+  console.log("invalid user")
+  return res.status(400).json({success:false,reson:"invalid user no data find of such user"})
+}
 
 
 
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist}
+  const{gamename,numberoftimecompleated,platform,review,stars}=req.body;
+  if(!gamename||!numberoftimecompleated||!stars){console.log("game name and stars and number of time played is required ")
+    return res.status(400).json({success:false,reson:"game name and stars and number of time played is required"})
+  }
+  const platformgeneral =platform.toLowerCase();
+const game = new gamesplayedmodel({gamename,numberoftimecompleated,platformgeneral,review,stars,user});
+await game.save();
+console.log("game details are saved ")
+return res.status(200).json({success:true,reson:"game details are saved successfully "})
+
+
+} catch (error) {
+  console.log("you are in side catch block ")
+console.log(error)
+return res.status(500).json({success:false,reson:"you are in side the catch block"})
+
+}
+
+}
+
+
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails }

@@ -11,19 +11,26 @@ numberoftimecompleated:{
 type:Number,
 required:true,
 },
-Playedby:{
-type:Schema.type.objectid,
-ref:"User"
+user:{
+type:Schema.Types.ObjectId,
+ref:"usermodel"
+
+
 
 },
 platform:{
 type:String,
-enum: ["PC", "CONSOLE", "MOBILE"],
-    default: "PC"
+enum: ["pc", "console", "mobile"],
+    default: "pc"
 
 },
 review:{
     type:String
+},
+stars:{
+    type:Number,
+    enum: [1,2,3,4,5],
+required:true
 }
 
     },{timestamps:true })

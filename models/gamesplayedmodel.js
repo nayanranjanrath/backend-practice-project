@@ -2,7 +2,7 @@ const{Schema,model}=require('mongoose')
 // const { model, default: mongoose } = require('mongoose')
 const gamesplayedschema  = new Schema(
     {
-gamename:{
+gamenamelower:{
 type:String,
 required:true,
 maxlength:50
@@ -18,7 +18,7 @@ ref:"usermodel"
 
 
 },
-platform:{
+platformgeneral:{
 type:String,
 enum: ["pc", "console", "mobile"],
     default: "pc"

@@ -2,7 +2,7 @@ const express=require ('express')
 const upload =require("../middlewares/multer.middleware.js")
 const authuser =require("../middlewares/authuser.middleware.js")
 const router = express.Router()
-const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames}=require("../controllers/registeruser")
+const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames,recruit}=require("../controllers/registeruser")
 
 router.post('/register',upload.fields([{
 name:"avatar",
@@ -24,5 +24,5 @@ router.post('/:username/follow',follow)
 router.get('/:username/allies',allieslist)
 router.post('/:username/addgamesplayed',gamedetails)
 router.get('/games/:gamename',searchgames)
-
+router.post('/:username/recruit',recruit)
 module.exports=router

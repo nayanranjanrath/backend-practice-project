@@ -36,6 +36,13 @@ description:{
 }
 
     },{timestamps:true })
+    
+recruitmentschema.index(
+  { createdAt: 1 },
+  { expireAfterSeconds: 60 * 60 * 24 } // 24 hours
+);
+
+
 const  recruitmentmodel= model("recruitmentmodel",recruitmentschema)
 
 module.exports= recruitmentmodel;

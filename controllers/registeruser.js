@@ -500,6 +500,33 @@ return res.status(200).json({success:true,reson:"recruit requist is successfully
 }
 
 }
+const showrecruit =async(req,res)=>{
+  console.log("inside the controller showrecruit")
+  try {
+    const {gamename} =req.body
+if(gamename){
+const gamenamelower =gamename.trim().toLowerCase()
+const game = await recruitmentmodel.find({gamenamelower:gamenamelower})
+if (game.length===0) {
+  console.log("no recruitment of this game is live ")
+  return res.status(200).json({success:true,reson:"no recruitment of this game is live"})
+}
+console.log("searched game recruitment is found ")
+console.log(game)
+ return res.status(200).json({success:true,reson:" recruitment of this game is live",game:game})
+}
+
+const game = await recruitmentmodel.find()
+console.log("all this games recruitment is live now")
+return res.status(200).json(game)
+
+  } catch (error) {
+    console.log("you are inside the catch block")
+    console.log(error)
+    return res.status(500).json({success:false,reson:"you are inside the catch block"})
+  }
+}
 
 
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames, recruit }
+
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames, recruit,showrecruit }

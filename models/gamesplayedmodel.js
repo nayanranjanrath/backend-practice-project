@@ -7,6 +7,11 @@ type:String,
 required:true,
 maxlength:50
 },
+gametaglower:{
+type:[String],
+required:true,
+
+},
 numberoftimecompleated:{
 type:Number,
 required:true,
@@ -20,7 +25,7 @@ ref:"usermodel"
 },
 platformgeneral:{
 type:String,
-enum: ["pc", "console", "mobile"],
+enum: ["pc", "console", "mobile","outdoor"],
     default: "pc"
 
 },

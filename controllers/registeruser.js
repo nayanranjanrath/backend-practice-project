@@ -489,7 +489,7 @@ if (!user) {
 }
 const gamenamelower=gamename.trim().toLowerCase()
 const platformgeneral=platform.trim().toLowerCase()
-const recruitrequist =new recruitmentmodel({platformgeneral,gamenamelower,numofplayer,description,user})
+const recruitrequist =new recruitmentmodel({platformgeneral,gamenamelower,numofplayer,description,recruiter:user,})
 await recruitrequist.save()
 console.log("recruit requist is successfully saved")
 return res.status(200).json({success:true,reson:"recruit requist is successfully saved"})
@@ -526,7 +526,33 @@ return res.status(200).json(game)
     return res.status(500).json({success:false,reson:"you are inside the catch block"})
   }
 }
+const applyforrecruit=async(req,res)=>{
+try {
+  const {recruitment_id,username}=req.body
+
+  if (!recruitment_id||!username) {
+    console.log("recruitment id is required")
+  
+  return res.status(400).json("recruitment id is required ")
+  }
+  const user =await usermodel.findOne({ username: username })
+await recruitmentmodel.findByIdAndUpdate(
+  recruitment_id,
+  { $push: { applicant: user } },
+  { new: true }
+);
+ console.log("successfully applied for the recruitment")
+  
+  return res.status(200).json("successfully applied for the recruitment ")
 
 
+} catch (error) {
+  console.log("you are inside the catch block")
+  console.log(error)
+  return res.status(500).json("you are inside the catch block ")
+}
 
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames, recruit,showrecruit }
+}
+
+
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames, recruit,showrecruit,applyforrecruit }

@@ -3,6 +3,7 @@ const uploadoncloudinary =require("../middlewares/cloudeinary.middleware.js")
 const jwt =require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
 const gamesplayedmodel =require("../models/gamesplayedmodel.js")
+const recruitmentmodel=require("../models/recruitment.model.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
 const alliesmodel =require("../models/allais.model.js")
 const postmodel=require("../models/postmodel.js")
@@ -404,13 +405,14 @@ if (!user) {
 
 
 
-  const{gamename,numberoftimecompleated,platform,review,stars}=req.body;
-  if(!gamename||!numberoftimecompleated||!stars){console.log("game name and stars and number of time played is required ")
+  const{gamename,numberoftimecompleated,platform,review,stars,gametags}=req.body;
+  if(!gamename||!numberoftimecompleated||!stars||!gametags){console.log("game name and stars and number of time played is required ")
     return res.status(400).json({success:false,reson:"game name and stars and number of time played is required"})
   }
   const gamenamelower=gamename.toLowerCase()
+  const gametaglower = gametags.map(tag => tag.toLowerCase());
   const platformgeneral =platform.toLowerCase();
-const game = new gamesplayedmodel({gamenamelower,numberoftimecompleated,platformgeneral,review,stars,user});
+const game = new gamesplayedmodel({gamenamelower,numberoftimecompleated,platformgeneral,review,stars,user,gametaglower});
 await game.save();
 console.log("game details are saved ")
 return res.status(200).json({success:true,reson:"game details are saved successfully "})
@@ -434,8 +436,10 @@ if(!gamename){console.log("gamename is required to find any details ")
 const rating =await gamesplayedmodel.aggregate([
 {
 $match:{
-gamenamelower:gamename?.toLowerCase()
-
+  $or: [
+      { gamenamelower: gamename?.toLowerCase() },
+      { gametaglower: gamename?.toLowerCase() }
+    ]
 }
 
 },
@@ -455,10 +459,12 @@ if (rating.length===0) {
 }
 
 console.log("game review is find in database")
-return res.status(200).json({
-      gamename,
-      averageStars: rating[0].averagestars.toFixed(2),//this will round up the value upto 2 desimals 
-      totalRatings: rating[0].totalRatings})                                    
+return res.status(200).json(
+      rating.map(game => ({
+    gamename: game._id,
+    averageStars: Number(game.averagestars.toFixed(2)),
+    totalRatings: game.totalRatings
+  })))                                    
 
 
 } catch (error) {
@@ -468,7 +474,32 @@ return res.status(200).json({
 }
 
 }
+const recruit=async(req,res)=>{
+try {
+  const recruiter =req.params
+  const{platform,gamename,numofplayer,description}=req.body
+if (!recruiter||!gamename||!numofplayer) {
+  console.log("recruter,gamename,numberof player are required to form a recruit requist")
+   return res.status(400).json({success:false,reson:"recruter,gamename,numberof player are required to form a recruit requist"})
+}
+const user =await usermodel.findOne(recruiter)
+if (!user) {
+  console.log("user is invalid or not in our data so you can not make a requist")
+  return res.status(400).json({success:false,reson:"user is invalid or not in our data so you can not make a requist"})
+}
+const gamenamelower=gamename.toLowerCase()
+const platformgeneral=platform.toLowerCase()
+const recruitrequist =new recruitmentmodel({platformgeneral,gamenamelower,numofplayer,description,user})
+await recruitrequist.save()
+console.log("recruit requist is successfully saved")
+return res.status(200).json({success:true,reson:"recruit requist is successfully saved"})
+} catch (error) {
+  console.log("you are inside the catch block")
+  console.log(error)
+  return res.status(500).json({success:false,reson:"you are inside the catch block"})
+}
+
+}
 
 
-
-module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames }
+module.exports={registeruser,loginuser,logoutuser,refreshaccesstokenofuser,getuserprofile,uploadpost, myposts,follow,allieslist,gamedetails,searchgames, recruit }

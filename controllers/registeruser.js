@@ -409,9 +409,9 @@ if (!user) {
   if(!gamename||!numberoftimecompleated||!stars||!gametags){console.log("game name and stars and number of time played is required ")
     return res.status(400).json({success:false,reson:"game name and stars and number of time played is required"})
   }
-  const gamenamelower=gamename.trim().toLowerCase()
-  const gametaglower = gametags.map(tag => tag.trim().toLowerCase());
-  const platformgeneral =platform.trim().toLowerCase();
+  const gamenamelower=gamename.trim().toLowerCase().replaceAll(" ","")
+  const gametaglower = gametags.map(tag => tag.trim().toLowerCase().replaceAll(" ",""));
+  const platformgeneral =platform.trim().toLowerCase().replaceAll(" ","");
 const game = new gamesplayedmodel({gamenamelower,numberoftimecompleated,platformgeneral,review,stars,user,gametaglower});
 await game.save();
 console.log("game details are saved ")
@@ -437,8 +437,8 @@ const rating =await gamesplayedmodel.aggregate([
 {
 $match:{
   $or: [
-      { gamenamelower: gamename?.toLowerCase() },
-      { gametaglower: gamename?.toLowerCase() }
+      { gamenamelower: gamename?.toLowerCase().replaceAll(" ","").trim() },
+      { gametaglower: gamename?.toLowerCase().replaceAll(" ","").trim() }
     ]
 }
 
@@ -487,8 +487,8 @@ if (!user) {
   console.log("user is invalid or not in our data so you can not make a requist")
   return res.status(400).json({success:false,reson:"user is invalid or not in our data so you can not make a requist"})
 }
-const gamenamelower=gamename.trim().toLowerCase()
-const platformgeneral=platform.trim().toLowerCase()
+const gamenamelower=gamename.trim().toLowerCase().replaceAll(" ","")
+const platformgeneral=platform.trim().toLowerCase().replaceAll(" ","")
 const recruitrequist =new recruitmentmodel({platformgeneral,gamenamelower,numofplayer,description,recruiter:user,})
 await recruitrequist.save()
 console.log("recruit requist is successfully saved")
@@ -505,7 +505,7 @@ const showrecruit =async(req,res)=>{
   try {
     const {gamename} =req.body
 if(gamename){
-const gamenamelower =gamename.trim().toLowerCase()
+const gamenamelower =gamename.trim().toLowerCase().replaceAll(" ","")
 const game = await recruitmentmodel.find({gamenamelower:gamenamelower})
 if (game.length===0) {
   console.log("no recruitment of this game is live ")

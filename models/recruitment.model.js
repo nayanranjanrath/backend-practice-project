@@ -39,7 +39,7 @@ description:{
     
 recruitmentschema.index(
   { createdAt: 1 },
-  { expireAfterSeconds: 60 * 60 * 24 } // 24 hours
+  { expireAfterSeconds: 86400  } // 24 hours
 );
 
 

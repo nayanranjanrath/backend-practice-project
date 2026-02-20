@@ -1,29 +1,30 @@
-module.exports = (io) => {
-  io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+const alliesmodel =require('../models/allais.model')
 
-    // Attach userId when connecting
-    socket.on("register", (userId) => {
-      socket.userId = userId;
-      socket.join(userId); // personal room
-    });
+
+module.exports = (io, socket) => {
 
     // Private message between two specific users
-    socket.on("privateMessage", ({ senderId, receiverId, message }) => {
-
+    socket.on("privateMessage",async ({ senderId, receiverId, message }) => {
+console.log("working")
       //  Only allow communication between these two users
-      const allowedUsers = ["user1", "user2"];
+       const allowedUsers = await alliesmodel.findOne({
+        $or: [
+          { allie1: senderId, allie2: receiverId },
+          { allie1: receiverId, allie2: senderId }
+        ]
+      });
 
-      if (
-        allowedUsers.includes(senderId) &&
-        allowedUsers.includes(receiverId)
+      if (allowedUsers
+       
       ) {
         const roomId = [senderId, receiverId].sort().join("-");
 
         io.to(roomId).emit("receiveMessage", {
           senderId,
           message,
+          
         });
+        console.log("Joining room:", roomId);
       }
     });
 
@@ -36,5 +37,5 @@ module.exports = (io) => {
     socket.on("disconnect", () => {
       console.log("User disconnected");
     });
-  });
-};
+  };
+

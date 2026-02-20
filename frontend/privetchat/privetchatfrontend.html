@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Private Chat</title>
+  <link rel="stylesheet" href="privetchat.css">
+</head>
+<body>
+
+<div class="chat-container">
+  
+  <div class="chat-header">
+    <h2>Private Chat</h2>
+  </div>
+
+  <div class="chat-box" id="chatBox"></div>
+
+  <div class="chat-input">
+    <input type="text" id="messageInput" placeholder="Type a message...">
+    <button id="sendBtn">Send</button>
+  </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="privetchart.js"></script>
+</body>
+</html>

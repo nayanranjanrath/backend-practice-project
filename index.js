@@ -24,5 +24,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true })); // for form data
 const registerrouter=require("./routes/registerrouter.js")
 app.use('/api',registerrouter)
+app.use(express.static("frontend"));
+require("./socket/socketconection.js")(io);
+
 
 server.listen(port,()=>{console.log ("app is online now ")});

@@ -6,7 +6,7 @@ const params = new URLSearchParams(window.location.search);
 const senderId = params.get("sender");
 const receiverId = params.get("receiver");
 
-
+// http://localhost:3000/privetchat/privetchatfrontend.html?sender=697edb4ffdd2a17623f4f443&receiver=6977417a5ff4bdf6cb6a918f
 
 // 6977417a5ff4bdf6cb6a918fn
 // 697edb4ffdd2a17623f4f443

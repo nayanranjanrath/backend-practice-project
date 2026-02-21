@@ -8,8 +8,13 @@ const receiverId = params.get("receiver");
 
 // http://localhost:3000/privetchat/privetchatfrontend.html?sender=697edb4ffdd2a17623f4f443&receiver=6977417a5ff4bdf6cb6a918f
 
-// 6977417a5ff4bdf6cb6a918fn
+// 6977417a5ff4bdf6cb6a918f
 // 697edb4ffdd2a17623f4f443
+socket.on("roomInfo", (data) => {
+  const chatTitle = document.getElementById("chattittle");
+  chatTitle.textContent = `${data.user1name}-${data.user2name}`;
+});
+
 const chatBox = document.getElementById("chatBox");
 const messageInput = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");

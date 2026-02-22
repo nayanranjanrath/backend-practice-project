@@ -3,6 +3,7 @@ const uploadoncloudinary = require("../middlewares/cloudeinary.middleware.js")
 const jwt = require("jsonwebtoken")
 const usermodel = require("../models/usermodel.js")
 const gamesplayedmodel = require("../models/gamesplayedmodel.js")
+const gamechatmodel =require ("../models/gamechat.model.js")
 const recruitmentmodel = require("../models/recruitment.model.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
 const alliesmodel = require("../models/allais.model.js")
@@ -523,6 +524,8 @@ const recruit = async (req, res) => {
     const platformgeneral = platform.trim().toLowerCase().replaceAll(" ", "")
     const recruitrequist = new recruitmentmodel({ platformgeneral, gamenamelower, numofplayer, description, recruiter: user, })
     await recruitrequist.save()
+    const groupchat =new gamechatmodel({recruiter: user})
+    await groupchat.save()
     console.log("recruit requist is successfully saved")
     return res.status(200).json({ success: true, reson: "recruit requist is successfully saved" })
   } catch (error) {
@@ -627,15 +630,18 @@ if(!player_id||!recruter_id)
     
     return res.status(400).json({success:false,reson:"player is required"})
 }
-const player =await recruitmentmodel.findById({$and:[{recruiter:recruter_id},{applicant:player_id}]})
+const player = await recruitmentmodel.findOne({recruiter:recruter_id},{applicant:player_id})
 if (!player) {
-  {console.log("player is invalid")
+  console.log("player or recruiter is not applied for any game")
     
-    return res.status(400).json({success:false,reson:"player is invalid"})
-}
+   return res.status(200).json({success:false,reson:"player or recruiter is not applied for any game"})
 }
 
-
+const gamechatuser =new gamechatmodel({otherplayer:player.applicant}) 
+await gamechatuser.save()
+ console.log("player is in game chat ")
+    
+    return res.status(200).json({success:true,reson:"player is in game chat"})
 
   } catch (error) {
     console.log("you are inside the catch block ")
@@ -644,4 +650,4 @@ if (!player) {
   }
 }
 
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent }
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer}

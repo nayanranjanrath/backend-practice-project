@@ -586,5 +586,38 @@ const applyforrecruit = async (req, res) => {
 
 }
 
+const showallaplicent =async(req,res)=>{
+try {
+const recruitername =req.body.recruitername
+if(!recruitername){
+console.log("recruiter is required for this ")
+return res.status(400).json({success:false,reson:"recruiter is required for this"})
+}
+const recruiter =await usermodel.findOne({username:recruitername})
+ if (!recruiter) {
+   console.log("recruiter is invalid ")
+ return res.status(400).json({success:false,reson:"recruiter is invalid"})
+ }  
+const gamerecruit = await recruitmentmodel.find({recruiter:recruiter._id}) .populate({
+    path: "applicant",
+    select: "username"   // only username field will be there 
+  }).select("applicant")
+if (gamerecruit.length===0) {
+  console.log("no recruitment is made ")
+return res.status(200).json({success:true,reson:"no recruitment is made"})
 
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit }
+}
+  console.log("applicant found")
+return res.status(200).json({success:true,reson:"applicant found",applicant:gamerecruit})
+
+
+} catch (error) {
+  console.log("you are inside the catch block ")
+console.log(error)
+return res.status(500).json({success:false,reson:"you are inside the catch block "})
+}
+
+}
+
+
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent }

@@ -6,7 +6,7 @@ type:Schema.Types.ObjectId,
 ref:"usermodel"
 
 },
-applicant:[{
+otherplayer:[{
 
 type:Schema.Types.ObjectId,
 ref:"usermodel"

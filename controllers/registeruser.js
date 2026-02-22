@@ -618,6 +618,30 @@ return res.status(500).json({success:false,reson:"you are inside the catch block
 }
 
 }
+const selectplayer =async(req,res)=>{
+  try {
+    const {player_id,recruter_id} = req.body
+    
+if(!player_id||!recruter_id)
+{console.log("player is required ")
+    
+    return res.status(400).json({success:false,reson:"player is required"})
+}
+const player =await recruitmentmodel.findById({$and:[{recruiter:recruter_id},{applicant:player_id}]})
+if (!player) {
+  {console.log("player is invalid")
+    
+    return res.status(400).json({success:false,reson:"player is invalid"})
+}
+}
 
+
+
+  } catch (error) {
+    console.log("you are inside the catch block ")
+    console.log(error)
+    return res.status(500).json({success:false,reson:"you are inside the catch block"})
+  }
+}
 
 module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent }

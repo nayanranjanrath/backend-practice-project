@@ -12,7 +12,7 @@ ref:"usermodel"
 },
 applicant:{
 type:Schema.Types.ObjectId,
-ref:"usermodel"
+ref:"usermodel",
 
 
 

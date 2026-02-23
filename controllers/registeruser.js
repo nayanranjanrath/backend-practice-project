@@ -570,12 +570,28 @@ const applyforrecruit = async (req, res) => {
 
       return res.status(400).json("recruitment id is required ")
     }
+
     const user = await usermodel.findOne({ username: username })
-    await recruitmentmodel.findByIdAndUpdate(
+const existingapplicant = await recruitmentmodel.findOne({_id:recruitment_id,applicant:user._id}) 
+  if (existingapplicant) {
+     console.log("alredy applied ")
+
+      return res.status(400).json("alredy applied ")
+  }
+
+
+
+    const ok = await recruitmentmodel.findByIdAndUpdate(
       recruitment_id,
       { $push: { applicant: user } },
       { new: true }
     );
+    if(!ok){
+console.log("recruitmebt id is wrong ")
+
+    return res.status(400).json("recruitmebt id is wrong  ")
+
+    }
     console.log("successfully applied for the recruitment")
 
     return res.status(200).json("successfully applied for the recruitment ")

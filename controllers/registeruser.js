@@ -524,7 +524,7 @@ const recruit = async (req, res) => {
     const platformgeneral = platform.trim().toLowerCase().replaceAll(" ", "")
     const recruitrequist = new recruitmentmodel({ platformgeneral, gamenamelower, numofplayer, description, recruiter: user, })
     await recruitrequist.save()
-    const groupchat =new gamechatmodel({recruiter: user})
+    const groupchat =new gamechatmodel({recruiter: user,gamename:gamenamelower})
     await groupchat.save()
     console.log("recruit requist is successfully saved")
     return res.status(200).json({ success: true, reson: "recruit requist is successfully saved" })
@@ -639,22 +639,29 @@ return res.status(500).json({success:false,reson:"you are inside the catch block
 }
 const selectplayer =async(req,res)=>{
   try {
-    const {player_id,recruter_id} = req.body
+    const {player_id,recrut_id} = req.body
     
-if(!player_id||!recruter_id)
+if(!player_id||!recrut_id)
 {console.log("player is required ")
     
     return res.status(400).json({success:false,reson:"player is required"})
 }
-const player = await recruitmentmodel.findOne({recruiter:recruter_id},{applicant:player_id})
+const player = await recruitmentmodel.findOne({_id:recrut_id,applicant:player_id})
 if (!player) {
   console.log("player or recruiter is not applied for any game")
     
    return res.status(200).json({success:false,reson:"player or recruiter is not applied for any game"})
 }
 
-const gamechatuser =new gamechatmodel({otherplayer:player.applicant}) 
-await gamechatuser.save()
+const alredyselected =await gamechatmodel.findOne({recruiter:player.recruiter,gamename:player.gamenamelower,otherplayer:player.applicant})
+if (alredyselected) {
+   console.log("alredy selected  ")
+    
+    return res.status(400).json({success:false,reson:"alredy selected "})
+}
+const gamechatuser =await gamechatmodel.findOneAndUpdate({recruiter:player.recruiter,gamename:player.gamenamelower}, { $push: { otherplayer: player.applicant } },
+      { new: true })
+
  console.log("player is in game chat ")
     
     return res.status(200).json({success:true,reson:"player is in game chat"})

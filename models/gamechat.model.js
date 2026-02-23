@@ -6,14 +6,16 @@ type:Schema.Types.ObjectId,
 ref:"usermodel"
 
 },
-otherplayer:[{
+otherplayer:{
 
 type:Schema.Types.ObjectId,
-ref:"usermodel"
+ref:"usermodel",
 
 }
-]
-
+,
+gamename:{
+    type:String
+}
 
 
 },{timestamps:true })

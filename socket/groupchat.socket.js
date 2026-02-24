@@ -1,53 +1,66 @@
-const recruitmentmodel= require("../models/recruitment.model")
+const gamechatmodel =require("../models/gamechat.model")
+  module.exports = (io, socket) => {
 
+  socket.on("joinGameChat", async ({ gamechatid, userId }) => {
+    try {
 
-module.exports = (io, socket) => {
-    // Join recruitment chat
-    socket.on("joinRecruitmentChat", async (recruitmentId) => {
+      const gamechat = await gamechatmodel.findById(gamechatid);
+      if (!gamechat) return;
 
-      try {
-        const recruitment = await recruitmentmodel.findById(recruitmentId);
+      const isRecruiter =
+        gamechat.recruiter.toString() === userId;
 
-        if (!recruitment) return;
+      const isOtherPlayer =
+        gamechat.otherplayer.some(
+          id => id.toString() === userId
+        );
 
-        // Check if user is recruiter or applicant
-        if (
-          recruitment.recruiter.toString() === socket.userId ||
-          recruitment.applicant.toString() === socket.userId
-        ) {
-          socket.join(recruitmentId);
-          console.log("User joined recruitment room");
-        } else {
-          console.log("Unauthorized user tried to join");
-        }
+      if (isRecruiter || isOtherPlayer) {
 
-      } catch (err) {
-        console.log("you are inside catch block of join chat")
-        console.log(err);
+        const roomName = gamechat._id.toString(); // 
+const gametittle =gamechat.gamename;
+        socket.join(roomName);
+ socket.emit("roomInfo", {gametittle})
+    
+        console.log("User joined:", roomName);
+      } else {
+        console.log("Unauthorized user");
       }
-    });
 
-    // Send message inside recruitment chat
-    socket.on("sendRecruitmentMessage", async ({ recruitmentId, message }) => {
+    } catch (err) {
+      console.log(err);
+    }
+  });
+socket.on("sendGameMessage", async ({ gamechatid, userId, message }) => {
 
-      const recruitment = await Recruitment.findById(recruitmentId);
-      if (!recruitment) return;
+  const gamechat = await gamechatmodel
+    .findById(gamechatid)
+    .populate("recruiter", "username")
+    .populate("otherplayer", "username");
 
-      // Security check again
-      if (
-        recruitment.recruiter.toString() === socket.userId ||
-        recruitment.applicant.toString() === socket.userId
-      ) {
-        io.to(recruitmentId).emit("receiveRecruitmentMessage", {
-          senderId: socket.userId,
-          message,
-        });
-      }
-    });
+  if (!gamechat) return;
 
-    socket.on("disconnect", () => {
-      console.log("User disconnected");
-    });
+  let senderName = "";
 
-  };
+  if (gamechat.recruiter._id.toString() === userId) {
+    senderName = gamechat.recruiter.username;
+  } else {
+    const player = gamechat.otherplayer.find(
+      p => p._id.toString() === userId
+    );
+    if (player) senderName = player.username;
+  }
+
+  const roomName = gamechat._id.toString();
+
+  io.to(roomName).emit("receiveGameMessage", {
+    senderId: userId,
+    senderName,
+    message
+  });
+});
+
+
+
+};
 

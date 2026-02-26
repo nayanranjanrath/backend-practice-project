@@ -8,9 +8,9 @@ ref:"usermodel"
 },
 otherplayer:{
 
-type:Schema.Types.ObjectId,
+type:[Schema.Types.ObjectId],
 ref:"usermodel",
-
+default: []
 }
 ,
 gamename:{

@@ -2,7 +2,7 @@ const express=require ('express')
 const upload =require("../middlewares/multer.middleware.js")
 const authuser =require("../middlewares/authuser.middleware.js")
 const router = express.Router()
-const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames,recruit,showrecruit,applyforrecruit,showallaplicent,selectplayer }=require("../controllers/registeruser")
+const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames,recruit,showrecruit,applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat }=require("../controllers/registeruser")
 
 router.post('/register',upload.fields([{
 name:"avatar",
@@ -29,5 +29,5 @@ router.get('/recruit/allrecruits',showrecruit)
 router.post('/recruitmentid/apply',applyforrecruit )
 router.get('/game/applicantlist',showallaplicent)
 router.post('/recruitplayer/select',selectplayer )
-
+router.post('/gamechat/removeplayer',removePlayerfromgroupchat)
 module.exports=router

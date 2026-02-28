@@ -8,7 +8,7 @@ const recruitmentmodel = require("../models/recruitment.model.js")
 const followersandfollowedtomodel = require("../models/followers.model.js")
 const alliesmodel = require("../models/allais.model.js")
 const postmodel = require("../models/postmodel.js")
-// const { trusted } = require("mongoose")
+
 const generateaccessandrefreshtokens = async (usreid) => {
   try {
     const user = await usermodel.findById(usreid)
@@ -646,22 +646,28 @@ if(!player_id||!recrut_id)
     
     return res.status(400).json({success:false,reson:"player is required"})
 }
-const player = await recruitmentmodel.findOne({_id:recrut_id,applicant:player_id})
+const player = await recruitmentmodel.findOne({_id:recrut_id,applicant:{ $in: [player_id] }})
 if (!player) {
   console.log("player or recruiter is not applied for any game")
     
    return res.status(200).json({success:false,reson:"player or recruiter is not applied for any game"})
 }
-
+console.log("--- SEARCH CRITERIA ---");
+    console.log("Searching for Recruiter:", player.recruiter.toString());
+    console.log("Searching for Game:", player.gamenamelower);
+     console.log("Adding Player:", player.applicant);
 const alredyselected =await gamechatmodel.findOne({recruiter:player.recruiter,gamename:player.gamenamelower,otherplayer:player.applicant})
 if (alredyselected) {
    console.log("alredy selected  ")
     
     return res.status(400).json({success:false,reson:"alredy selected "})
 }
-const gamechatuser =await gamechatmodel.findOneAndUpdate({recruiter:player.recruiter,gamename:player.gamenamelower}, { $push: { otherplayer: player.applicant } },
-      { new: true })
-
+const gamechatuser =await gamechatmodel.findOneAndUpdate({recruiter:player.recruiter.toString(),gamename:player.gamenamelower},   {$addToSet: { otherplayer: player_id } },
+      { new: true,upsert: true })
+        console.log(gamechatuser)
+if (!gamechatuser) {
+   console.log("No document matched!")
+}
  console.log("player is in game chat ")
     
     return res.status(200).json({success:true,reson:"player is in game chat"})
@@ -672,5 +678,51 @@ const gamechatuser =await gamechatmodel.findOneAndUpdate({recruiter:player.recru
     return res.status(500).json({success:false,reson:"you are inside the catch block"})
   }
 }
+const removePlayerfromgroupchat= async (req, res) => {
+  try {
+    // recruiter_id is commented out for now until frontend auth is ready
+    const { player_id, gamechat_id /*, recruiter_id*/ } = req.body;
 
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer}
+    if (!player_id || !gamechat_id) {
+      return res.status(400).json({ 
+        success: false, 
+        reason: "Player ID and GameChat ID are required" 
+      });
+    }
+
+    // 1. Find the chat 
+    // 2. Remove the player using $pull
+    const updatedChat = await gamechatmodel.findOneAndUpdate(
+      { 
+        _id: gamechat_id, 
+        // recruiter: recruiter_id // Uncomment this later for security
+      },
+      { 
+        $pull: { otherplayer: player_id } 
+      },
+      { new: true }
+    );
+
+    if (!updatedChat) {
+      return res.status(404).json({ 
+        success: false, 
+        reason: "Chat not found" 
+      });
+    }
+
+    console.log(` Player ${player_id} removed successfully`);
+    
+    return res.status(200).json({ 
+      success: true, 
+      message: "Player removed successfully", 
+      data: updatedChat 
+    });
+
+  } catch (error) {
+    console.error("Remove Player Error:", error.message);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat}

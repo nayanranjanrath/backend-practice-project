@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+  <video id="bg-video" autoplay muted loop>
+    <source src="../backgroundvideo.mp4" type="video/mp4">
+  </video>
+
+  <div class="form-container">
+    <form id="registerForm">
+      <h2>Create Account</h2>
+
+      <input type="text" id="username" placeholder="Username *" required>
+      <input type="email" id="email" placeholder="Email *" required>
+      <input type="password" id="password" placeholder="Password *" required>
+      <input type="text" id="fullname" placeholder="Full Name (Optional)">
+      
+      <label>Upload Avatar (Optional)</label>
+      <input type="file" id="avatar" accept="image/*">
+
+      <button type="submit">Register</button>
+      <p id="message"></p>
+    </form>
+  </div>
+  <script src="register.js"></script>
+</body>
+</html>

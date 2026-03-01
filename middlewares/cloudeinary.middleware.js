@@ -14,7 +14,9 @@ try{
     if(!localpath){return null}
 const response = await v2.uploader.upload(localpath,{resource_type:"auto"})
 console.log("file is uploaded into cloudinary ",response.url)
-fs.unlinkSync(localpath);
+ if (fs.existsSync(localpath)) {
+      fs.unlinkSync(localpath);
+    }
 
 return response;
 }

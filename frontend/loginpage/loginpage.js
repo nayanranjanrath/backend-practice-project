@@ -1,6 +1,8 @@
 document.getElementById("loginForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+// http://localhost:3000/loginpage/loginpage.html
+
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
   const message = document.getElementById("message");
@@ -22,7 +24,8 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     if (response.ok) {
       message.style.color = "green";
       message.textContent = "Login successful!";
-      
+       localStorage.setItem("username", data.username);
+       window.location.href = "http://localhost:3000/homepage/homepage.html";
       
       // window.location.href = "dashboard.html";
     } else {

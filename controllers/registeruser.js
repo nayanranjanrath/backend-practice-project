@@ -100,8 +100,8 @@ const loginuser = async (req, res) => {
       secure: true
 
     }
-    console.log(refreshtoken)
-    return res.status(200).cookie("accesstoken", accesstoken, option).cookie("refreshtoken", refreshtoken, option).json({ success: true })
+    // console.log(refreshtoken)
+    return res.status(200).cookie("accesstoken", accesstoken, option).cookie("refreshtoken", refreshtoken, option).json({ success: true,username:username })
   } catch (error) {
     console.log(error)
     return res.status(400).json({ message: "this is in catch part " })
@@ -723,6 +723,8 @@ const removePlayerfromgroupchat= async (req, res) => {
     return res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
 
 
 module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat}

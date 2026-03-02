@@ -12,41 +12,144 @@ body {
 }
 
 /* ===== NAVBAR ===== */
+/* ===== NAVBAR ===== */
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
-  padding: 20px 50px;
-  background-color: #142247;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  padding: 15px 40px;
+  background: linear-gradient(to right, #0f1e3a, #142247);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* LEFT */
+.nav-left {
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   color: #4da3ff;
+  letter-spacing: 1px;
 }
 
-.profile-section {
+/* CENTER SEARCH */
+.nav-center {
   display: flex;
-  align-items: center;
+  justify-content: center;
+}
+
+.search-box {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+  background: #1b2c57;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(77,163,255,0.3);
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+}
+
+.search-box input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.search-box button {
+  padding: 0 25px;
+  border: none;
+  background: #4da3ff;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.profile-section:hover {
-  opacity: 0.8;
+.search-box button:hover {
+  background: #2f85e0;
+}
+
+/* RIGHT SIDE */
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+/* BUTTON STYLES */
+
+.chat-btn {
+  background: #1f47a5;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.chat-btn:hover {
+  background: #4da3ff;
+}
+
+.recruit-btn {
+  background: transparent;
+  border: 1px solid #4da3ff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #4da3ff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.recruit-btn:hover {
+  background: #4da3ff;
+  color: white;
+}
+
+.recruiting-btn {
+  background: #1b2c57;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.recruiting-btn:hover {
+  background: #2b5edb;
+}
+
+/* PROFILE */
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255,255,255,0.2);
 }
 
 .avatar {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
   border: 2px solid #4da3ff;
 }
-
 /* ===== MAIN ===== */
 
 main {

@@ -34,6 +34,35 @@ async function loadUserProfile() {
 
 
 
+function goToSearch() {
+  const query = document.getElementById("searchInput").value;
+
+  if (!query) return;
+
+  window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+}
+
+function goToChat() {
+  window.location.href = "chat.html";
+}
+
+function goToRecruit() {
+  window.location.href = "recruit.html";
+}
+
+function goToAllRecruiting() {
+  window.location.href = "allRecruiting.html";
+}
+
+function goToPost() {
+  window.open("post.html", "_blank");
+}
+
+
+
+
+
+
 
 function goToProfile() {
   window.location.href = "profile.html";

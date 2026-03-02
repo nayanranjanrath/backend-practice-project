@@ -1,26 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Home</title>
   <link rel="stylesheet" href="homepage.css">
 </head>
+
 <body>
 
-  <header class="navbar">
-    <h2 class="logo">GameZone</h2>
+  <!-- NAVBAR -->
+ <header class="navbar">
+
+  <!-- LEFT: Logo -->
+  <div class="nav-left">
+    <h2 class="logo">--GameZone--</h2>
+  </div>
+
+  <!-- CENTER: Search -->
+  <div class="nav-center">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search games or players..." />
+      <button onclick="goToSearch()">Search</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Actions + Profile -->
+  <div class="nav-right">
+
+    <button class="chat-btn" onclick="goToChat()">Chat</button>
+
+    <button class="recruit-btn" onclick="goToRecruit()">Recruit</button>
+
+    <button class="recruiting-btn" onclick="goToAllRecruiting()">Team Up</button>
 
     <div class="profile-section" onclick="goToProfile()">
-      <img src="avatar.png" class="avatar" alt="User Avatar">
-      <span id="usernameDisplay">John Doe</span>
+      <img src="avatar.png" class="avatar">
+      <span id="usernameDisplay">Loading...</span>
     </div>
-  </header>
 
+  </div>
+
+</header>
+  <!-- MAIN CONTENT -->
   <main>
     <h1>Upcoming Games</h1>
     <div id="gamesContainer" class="games-grid"></div>
   </main>
 
   <script src="homepage.js"></script>
+
 </body>
 </html>

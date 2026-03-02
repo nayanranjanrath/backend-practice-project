@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+
+  <header class="navbar">
+    <h2 class="logo">GameZone</h2>
+
+    <div class="profile-section" onclick="goToProfile()">
+      <img src="avatar.png" class="avatar" alt="User Avatar">
+      <span id="usernameDisplay">John Doe</span>
+    </div>
+  </header>
+
+  <main>
+    <h1>Upcoming Games</h1>
+    <div id="gamesContainer" class="games-grid"></div>
+  </main>
+
+  <script src="homepage.js"></script>
+</body>
+</html>

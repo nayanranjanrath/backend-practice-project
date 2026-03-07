@@ -100,7 +100,7 @@ const loginuser = async (req, res) => {
       secure: true
 
     }
-    // console.log(refreshtoken)
+     console.log(refreshtoken)
     return res.status(200).cookie("accesstoken", accesstoken, option).cookie("refreshtoken", refreshtoken, option).json({ success: true,username:username })
   } catch (error) {
     console.log(error)
@@ -186,12 +186,13 @@ const refreshaccesstokenofuser = async (req, res) => {
 const getuserprofile = async (req, res) => {
   try {
     const { username } = req.params
+    const { viewer } = req.query
     if (!username) {
       console.log("user name is required in url")
       return res.status(400).json({ success: false, reson: "the username  is not found  " })
     }
     const user = await usermodel.findOne({ username: username })
-
+const viewerUser = await usermodel.findOne({ username: viewer })
     const channel = await usermodel.aggregate([
       {
         $match: {
@@ -225,18 +226,28 @@ const getuserprofile = async (req, res) => {
         }
       },
       {
-        $addFields: {
-          followerscount: { $size: { $ifNull: ["$followers", []] } },
-          following: { $size: { $ifNull: ["$followed", []] } },
-          numofgamesplayed: { $size: { $ifNull: ["$numofgamesplayed", []] } },
-          isfollowed: {
-            $cond: {
-              if: { $in: [user._id, "$followers.follower"] },
-              then: true,
-              else: false
-            }
-          }
-        }
+       
+  $addFields: {
+    followerscount: { $size: { $ifNull: ["$followers", []] } },
+
+    following: { $size: { $ifNull: ["$followed", []] } },
+
+    numofgamesplayed: { $size: { $ifNull: ["$numofgamesplayed", []] } },
+
+    isfollowed: {
+  $in: [
+    viewerUser._id,
+    {
+      $map: {
+        input: "$followers",
+        as: "f",
+        in: "$$f.follower"
+      }
+    }
+  ]
+}
+  }
+
       },
       {
         $project: {
@@ -274,20 +285,39 @@ const uploadpost = async (req, res) => {
   try {
 
     const { tittle, description } = req.body
+    const {username}=req.body
+    const user =await usermodel.findOne({username})
     if (!tittle) {
       console.log("tittle is required ")
       return res.status(400).json({ success: false, reson: "tittle is required for posting " })
     }
-    const postlocation = req.files?.postcontent[0]?.path;
-    const postcontent = await uploadoncloudinary(postlocation)
+const files = req.files?.postcontent;
+
+if (!files || files.length === 0) {
+  return res.status(400).json({
+    success: false,
+    reason: "At least one image is required"
+  });
+}
+
+const uploadedImages = [];
+
+for (const file of files) {
+  const result = await uploadoncloudinary(file.path);
+  if (result?.url) {
+    uploadedImages.push(result.url);
+  }
+}
 
 
 
-    if (!postcontent || !tittle) {
+    if (!uploadedImages || !tittle) {
       console.log("post and tittles are required")
       return res.status(400).json({ success: false, reson: "post and tittle is required " })
     }
-    const post = new postmodel({ tittle, description, postcontent: postcontent?.url || "" })
+
+
+    const post = new postmodel({ tittle, description, postcontent: uploadedImages || "",postby:user._id })
     await post.save();
     return res.status(200).json({ success: true, reson: "post is successfully done ", url: post })
 
@@ -317,7 +347,7 @@ const myposts = async (req, res) => {
       },
       {
         $lookup: {
-          from: "postmodel",
+          from: "postmodels",
           localField: "_id",
           foreignField: "postby",
           as: "posts"
@@ -336,7 +366,7 @@ const myposts = async (req, res) => {
           username: 1,
           followerscount: 1,
           avatar: 1,
-          post: 1,
+          posts: 1,
 
           isfollowed: 1
         }
@@ -347,7 +377,7 @@ const myposts = async (req, res) => {
 
 
     ])
-    if (!posts) {
+    if (!posts||posts.length===0) {
       console.log("therre are no posts you are in if satatement")
       return res.status(400).json({ success: false, reson: "there are no posts " })
     }
@@ -380,7 +410,7 @@ const follow = async (req, res) => {
     const alredyfolllowed = await followersandfollowedtomodel.findOne({ follower: user, channels: channel })
     if (alredyfolllowed) {
       console.log("you alredy follow this channel")
-      return res.status(400).json("you alredy follow this channel")
+      return res.status(200).json("you alredy follow this channel")
     }
     await followersandfollowedtomodel.create({ follower: user, channels: channel })
     console.log("saved the follower in data base")
@@ -724,7 +754,63 @@ const removePlayerfromgroupchat= async (req, res) => {
   }
 };
 
+const getFeed = async (req, res) => {
+  try {
+
+    const username = req.params.username;
+
+    //  Find logged in user
+    const user = await usermodel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    //  Find all users they follow
+    const followingRecords = await followersandfollowedtomodel.find({
+      follower: user._id
+    }).populate("channels");
+
+    // Extract followed user IDs
+    const followingUserIds = followingRecords.map(
+      record => record.channels._id
+    );
+
+    //  Get posts from followed users
+    const followingPosts = await postmodel.find({
+      postby: { $in: followingUserIds }
+    })
+    .populate("postby", "username avatar")
+    .sort({ createdAt: -1 })
+    .limit(20);
+
+    //  Get recommended posts (not from followed users)
+    const recommendedPosts = await postmodel.find({
+      postby: { $nin: followingUserIds }
+    })
+    .populate("postby", "username avatar")
+    .sort({ createdAt: -1 })
+    .limit(10);
+
+    //  Combine feed
+    const feed = [...followingPosts, ...recommendedPosts];
+
+    // Optional shuffle
+    feed.sort(() => Math.random() - 0.5);
+
+    res.status(200).json({
+      success: true,
+      feed
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error loading feed"
+    });
+  }
+};
 
 
 
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat}
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed}

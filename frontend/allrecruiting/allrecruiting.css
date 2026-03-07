@@ -1,0 +1,222 @@
+body{
+background:#0f1e3a;
+font-family:Arial;
+color:white;
+margin:0;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:#142247;
+}
+
+.logo{
+color:#4da3ff;
+cursor:pointer;
+}
+
+.search-box input{
+padding:8px;
+border-radius:6px;
+border:none;
+}
+
+.search-box button{
+padding:8px 12px;
+background:#4da3ff;
+border:none;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
+
+.title{
+text-align:center;
+margin-top:20px;
+}
+
+/* CONTAINER */
+
+.recruit-container{
+width:65%;
+margin:auto;
+margin-top:40px;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* CARD */
+
+.recruit-card{
+background:#1b2c57;
+border-radius:28px;
+padding:18px 22px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+border:1px solid rgba(77,163,255,0.5);
+
+box-shadow:
+0 0 10px rgba(77,163,255,0.5),
+0 0 25px rgba(77,163,255,0.25);
+
+transition:0.25s;
+}
+
+.recruit-card:hover{
+box-shadow:
+0 0 15px rgba(77,163,255,0.8),
+0 0 40px rgba(77,163,255,0.4);
+
+transform:translateY(-3px);
+}
+
+/* LEFT SIDE */
+
+.recruit-left{
+display:flex;
+align-items:center;
+gap:22px;   /* increased space */
+}
+
+/* GAME LOGO */
+
+.game-logo{
+width:105px;
+height:105px;
+border-radius:10px;
+object-fit:cover;
+box-shadow:0 0 10px rgba(77,163,255,0.6);
+}
+
+/* INFO */
+
+.recruit-info h3{
+font-size:24px;
+margin-bottom:4px;
+color:#4da3ff;
+}
+
+.recruit-info p{
+font-size:16px;
+margin:3px 0;
+color:#e2e7ff;
+}
+
+/* RECRUITER */
+
+.recruiter{
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.recruiter-link{
+font-size:16px;
+font-weight:bold;
+color:#4da3ff;
+text-decoration:none;
+}
+
+.recruiter-link:hover{
+text-shadow:
+0 0 6px #4da3ff,
+0 0 14px rgba(77,163,255,0.8);
+}
+
+/* RECRUITER AVATAR */
+
+.recruiter-avatar{
+width:32px;
+height:32px;
+border-radius:50%;
+margin-right:6px;
+border:1px solid #4da3ff;
+}
+
+/* APPLY BUTTON */
+
+.apply-btn{
+background:#4da3ff;
+border:none;
+padding:8px 18px;
+border-radius:20px;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:all 0.2s ease;
+}
+
+.apply-btn:hover{
+background:#2f85e0;
+transform:scale(1.05);
+}
+
+/* APPLIED BUTTON */
+
+.applied-btn{
+background:#1ecb81;
+border:none;
+padding:8px 18px;
+border-radius:20px;
+color:white;
+font-weight:600;
+cursor:default;
+}
+/* STATS CONTAINER */
+
+.recruit-stats{
+display:flex;
+gap:10px;
+margin-top:6px;
+flex-wrap:wrap;
+}
+
+
+/* GENERAL BADGE STYLE */
+
+.stat{
+font-size:13px;
+padding:4px 10px;
+border-radius:20px;
+font-weight:600;
+}
+
+
+/* PLATFORM BADGE */
+
+.platform{
+background:rgba(77,163,255,0.15);
+color:#4da3ff;
+
+box-shadow:
+0 0 6px rgba(77,163,255,0.5);
+}
+
+
+/* PLAYER SLOT BADGE */
+
+.players{
+background:rgba(30,203,129,0.15);
+color:#19d27c;
+
+box-shadow:
+0 0 6px rgba(25,210,124,0.6);
+}
+
+
+/* APPLICANT BADGE */
+
+.applicants{
+background:rgba(255,196,0,0.15);
+color:#ffc400;
+
+box-shadow:
+0 0 6px rgba(255,196,0,0.5);
+}

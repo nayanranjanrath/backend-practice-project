@@ -25,6 +25,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
       message.style.color = "green";
       message.textContent = "Login successful!";
        localStorage.setItem("username", data.username);
+       
        window.location.href = "http://localhost:3000/homepage/homepage.html";
       
       // window.location.href = "dashboard.html";

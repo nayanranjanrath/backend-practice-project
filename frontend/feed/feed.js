@@ -30,9 +30,11 @@ async function loadUserProfile() {
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/${username}`
-    );
+   const viewer = localStorage.getItem("username");
+
+const response = await fetch(
+  `http://localhost:3000/api/${username}?viewer=${viewer}`
+);
 
     const data = await response.json();
 

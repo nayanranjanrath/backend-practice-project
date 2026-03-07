@@ -3,14 +3,16 @@ async function loadUserProfile() {
   const username = localStorage.getItem("username");
 
   if (!username) {
-    window.location.href = "login.html";
+    window.location.href = "http://localhost:3000/loginpage/loginpage.html";
     return;
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/${username}`
-    );
+   const viewer = localStorage.getItem("username");
+
+const response = await fetch(
+  `http://localhost:3000/api/${username}?viewer=${viewer}`
+);
 
     const data = await response.json();
 
@@ -28,7 +30,7 @@ async function loadUserProfile() {
   } catch (error) {
     console.error("Error loading profile:", error);
     localStorage.removeItem("username");
-    window.location.href = "login.html";
+    window.location.href = "http://localhost:3000/loginpage/loginpage.html";
   }
 }
 
@@ -54,19 +56,35 @@ function goToAllRecruiting() {
   window.location.href = "allRecruiting.html";
 }
 
+// function goToPost() {
+//   window.open("post.html", "_blank");
+// }
 function goToPost() {
-  window.open("post.html", "_blank");
+  window.location.href = "http://localhost:3000/post/post.html";
 }
 
-
-
-
-
-
+function goToExplore() {
+  window.location.href = "http://localhost:3000/feed/feed.html";
+}
 
 function goToProfile() {
-  window.location.href = "profile.html";
+
+  const username = localStorage.getItem("username");
+
+  if (!username) {
+    window.location.href =
+      "http://localhost:3000/loginpage/loginpage.html";
+    return;
+  }
+
+  window.location.href =
+    `http://localhost:3000/profile/profile.html?username=${username}`;
 }
+
+
+
+
+
 
 async function loadUpcomingGames() {
 
@@ -117,7 +135,7 @@ async function loadUpcomingGames() {
 
     container.appendChild(card);
 
-    // 🔥 HOVER SLIDESHOW
+    //  HOVER SLIDESHOW
     let interval;
     let index = 0;
 

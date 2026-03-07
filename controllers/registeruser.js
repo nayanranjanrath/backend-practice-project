@@ -566,31 +566,66 @@ const recruit = async (req, res) => {
 
 }
 const showrecruit = async (req, res) => {
-  console.log("inside the controller showrecruit")
+  console.log("inside the controller showrecruit");
+
   try {
-    const { gamename } = req.body
+
+    const gamename = req.body?.gamename
+    let recruits;
+
+    // If searching by game
     if (gamename) {
-      const gamenamelower = gamename.trim().toLowerCase().replaceAll(" ", "")
-      const game = await recruitmentmodel.find({ gamenamelower: gamenamelower })
-      if (game.length === 0) {
-        console.log("no recruitment of this game is live ")
-        return res.status(200).json({ success: true, reson: "no recruitment of this game is live" })
+
+      const gamenamelower = gamename
+        .trim()
+        .toLowerCase()
+        .replaceAll(" ", "");
+
+      recruits = await recruitmentmodel
+        .find({ gamenamelower: gamenamelower })
+        .populate("recruiter", "username avatar");
+
+      if (recruits.length === 0) {
+
+        console.log("no recruitment of this game is live");
+
+        return res.status(200).json({
+          success: true,
+          message: "no recruitment of this game is live",
+          recruits: []
+        });
       }
-      console.log("searched game recruitment is found ")
-      console.log(game)
-      return res.status(200).json({ success: true, reson: " recruitment of this game is live", game: game })
+
+      console.log("searched game recruitment is found");
     }
 
-    const game = await recruitmentmodel.find()
-    console.log("all this games recruitment is live now")
-    return res.status(200).json(game)
+    // If no game name → show all recruitments
+    else {
+
+      recruits = await recruitmentmodel
+        .find()
+        .populate("recruiter", "username avatar");
+
+      console.log("all these games recruitment are live now");
+    }
+
+    return res.status(200).json({
+      success: true,
+      recruits: recruits
+    });
 
   } catch (error) {
-    console.log("you are inside the catch block")
-    console.log(error)
-    return res.status(500).json({ success: false, reson: "you are inside the catch block" })
+
+    console.log("you are inside the catch block");
+    console.log(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "server error"
+    });
   }
-}
+};
+
 const applyforrecruit = async (req, res) => {
   try {
     const { recruitment_id, username } = req.body
@@ -606,14 +641,14 @@ const existingapplicant = await recruitmentmodel.findOne({_id:recruitment_id,app
   if (existingapplicant) {
      console.log("alredy applied ")
 
-      return res.status(400).json("alredy applied ")
+      return res.status(400).json( {message:"already applied"})
   }
 
 
 
     const ok = await recruitmentmodel.findByIdAndUpdate(
       recruitment_id,
-      { $push: { applicant: user } },
+      { $push: { applicant: user._id } },
       { new: true }
     );
     if(!ok){

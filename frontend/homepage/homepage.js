@@ -49,11 +49,11 @@ function goToChat() {
 }
 
 function goToRecruit() {
-  window.location.href = "recruit.html";
+  window.location.href = "http://localhost:3000/recruit/recruit.html";
 }
 
 function goToAllRecruiting() {
-  window.location.href = "allRecruiting.html";
+  window.location.href = "http://localhost:3000/allrecruiting/allrecruiting.html";
 }
 
 // function goToPost() {

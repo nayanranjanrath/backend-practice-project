@@ -12,12 +12,18 @@
   <!-- NAVBAR -->
  <header class="navbar">
 
-  <!-- LEFT: Logo -->
+  <!-- LEFT -->
   <div class="nav-left">
-    <h2 class="logo">--GameZone--</h2>
+    <h2 class="logo">GameZone</h2>
   </div>
 
-  <!-- CENTER: Search -->
+  <!-- LEFT-CENTER (Post + Explore) -->
+  <div class="nav-mid-left">
+    <button class="post-btn" onclick="goToPost()">+ Post</button>
+    <button class="explore-btn" onclick="goToExplore()">Explore</button>
+  </div>
+
+  <!-- CENTER SEARCH -->
   <div class="nav-center">
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Search games or players..." />
@@ -25,14 +31,14 @@
     </div>
   </div>
 
-  <!-- RIGHT: Actions + Profile -->
+  <!-- RIGHT -->
   <div class="nav-right">
 
     <button class="chat-btn" onclick="goToChat()">Chat</button>
 
     <button class="recruit-btn" onclick="goToRecruit()">Recruit</button>
 
-    <button class="recruiting-btn" onclick="goToAllRecruiting()">Team Up</button>
+    <button class="recruiting-btn" onclick="goToAllRecruiting()">join</button>
 
     <div class="profile-section" onclick="goToProfile()">
       <img src="avatar.png" class="avatar">

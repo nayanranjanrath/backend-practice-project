@@ -1,90 +1,233 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+/* ================= GLOBAL ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Arial,sans-serif;
 }
 
-body {
-  height: 100vh;
-  display: flex;
-  align-items: center;
+body{
 
-  background-image: url("../login1.png"); /* change file name */
-  background-size: cover;      /* fill entire screen */
-  background-position: center; /* center image */
-  background-repeat: no-repeat;
+height:100vh;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:linear-gradient(
+120deg,
+#0b0f1c,
+#111827,
+#0f172a,
+#1a1f3b
+);
+
+background-size:300% 300%;
+animation:bgMove 18s ease infinite;
+
+color:white;
+
 }
 
-/* Left aligned container */
-.container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 100px;
+@keyframes bgMove{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
 }
 
-/* Login Box */
-.login-box {
-  background: rgba(255, 255, 255, 0.15); /* translucent white */
-  backdrop-filter: blur(10px);          /* glass blur effect */
-  -webkit-backdrop-filter: blur(10px);  /* for Safari */
 
-  width: 350px;
-  padding: 40px;
-  border-radius: 15px;
+/* ================= CONTAINER ================= */
 
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+.container{
+
+width:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+
 }
 
-.login-box h2,
-.register-link,
-#message {
-  color: white;
+
+/* ================= LOGIN BOX ================= */
+
+.login-box{
+
+width:420px;
+
+padding:50px;
+
+border-radius:20px;
+
+background:rgba(17,24,39,0.55);
+
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+
+border:1px solid rgba(255,255,255,0.08);
+
+box-shadow:0 20px 60px rgba(0,0,0,0.7);
+
+transition:all 0.3s ease;
+
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  outline: none;
+
+/* ================= HOVER GLOW ================= */
+
+.login-box:hover{
+
+border:1px solid rgba(34,211,238,0.6);
+
+box-shadow:
+0 0 20px rgba(34,211,238,0.35),
+0 20px 60px rgba(0,0,0,0.8);
+
 }
 
-input:focus {
-  border-color: #2b5edb;
+
+/* ================= TITLE ================= */
+
+.login-box h2{
+
+text-align:center;
+
+margin-bottom:25px;
+
+color:#22d3ee;
+
+font-size:26px;
+
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  background: #2b5edb;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+
+/* ================= INPUT ================= */
+
+input{
+
+width:100%;
+
+padding:14px;
+
+margin:12px 0;
+
+border-radius:10px;
+
+border:1px solid rgba(255,255,255,0.1);
+
+outline:none;
+
+background:rgba(255,255,255,0.05);
+
+color:white;
+
+font-size:15px;
+
+transition:0.2s;
+
 }
 
-button:hover {
-  background: #1f47a5;
+input::placeholder{
+color:#9fbfff;
 }
 
-#message {
-  margin-top: 15px;
-  font-size: 14px;
+input:focus{
+
+border-color:#22d3ee;
+
+box-shadow:
+0 0 8px rgba(34,211,238,0.35);
+
 }
 
-.register-link {
-  margin-top: 20px;
-  font-size: 14px;
+
+/* ================= BUTTON ================= */
+
+button{
+
+width:100%;
+
+padding:14px;
+
+margin-top:18px;
+
+background:linear-gradient(
+135deg,
+#3b82f6,
+#22d3ee
+);
+
+color:white;
+
+border:none;
+
+border-radius:10px;
+
+font-weight:bold;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:0.25s;
+
 }
 
-.register-link a {
-  text-decoration: none;
-  color: #2b5edb;
-  font-weight: bold;
+button:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 14px rgba(34,211,238,0.6);
+
+}
+
+
+/* ================= MESSAGE ================= */
+
+#message{
+
+margin-top:15px;
+
+text-align:center;
+
+font-size:14px;
+
+}
+
+
+/* ================= REGISTER LINK ================= */
+
+.register-link{
+
+margin-top:22px;
+
+text-align:center;
+
+font-size:14px;
+
+color:#cfd8ff;
+
+}
+
+.register-link a{
+
+text-decoration:none;
+
+color:#22d3ee;
+
+font-weight:bold;
+
+transition:0.2s;
+
+}
+
+.register-link a:hover{
+
+text-shadow:
+0 0 6px #22d3ee,
+0 0 12px rgba(34,211,238,0.7);
+
 }

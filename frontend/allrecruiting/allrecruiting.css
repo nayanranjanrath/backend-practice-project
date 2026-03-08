@@ -1,222 +1,425 @@
-body{
-background:#0f1e3a;
-font-family:Arial;
-color:white;
+/* ================= GLOBAL ================= */
+
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Arial,sans-serif;
 }
 
+body{
+
+background:linear-gradient(
+120deg,
+#0b0f1c,
+#111827,
+#0f172a,
+#1a1f3b
+);
+
+background-size:300% 300%;
+
+animation:bgMove 18s ease infinite;
+
+color:white;
+
+min-height:100vh;
+
+}
+
+/* BACKGROUND ANIMATION */
+
+@keyframes bgMove{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
+}
+
+
+/* ================= NAVBAR ================= */
+
 .navbar{
+
 display:flex;
 justify-content:space-between;
 align-items:center;
+
 padding:15px 40px;
-background:#142247;
+
+background:rgba(10,14,30,0.85);
+
+backdrop-filter:blur(8px);
+
+border-bottom:1px solid rgba(139,92,246,0.3);
+
 }
+
+
+/* LOGO */
 
 .logo{
-color:#4da3ff;
+
+color:#22d3ee;
+
+font-size:26px;
+font-weight:700;
+
 cursor:pointer;
+
+text-shadow:0 0 6px rgba(34,211,238,0.6);
+
+transition:0.3s;
+
 }
 
+.logo:hover{
+
+text-shadow:
+0 0 10px #22d3ee,
+0 0 18px rgba(34,211,238,0.8);
+
+}
+
+
+/* ================= SEARCH ================= */
+
 .search-box input{
-padding:8px;
+
+padding:8px 12px;
+
 border-radius:6px;
+
 border:none;
+
+background:rgba(255,255,255,0.05);
+
+color:white;
+
 }
 
 .search-box button{
-padding:8px 12px;
-background:#4da3ff;
+
+padding:8px 14px;
+
+background:linear-gradient(135deg,#3b82f6,#22d3ee);
+
 border:none;
+
 color:white;
+
 cursor:pointer;
+
 border-radius:6px;
+
+transition:0.3s;
+
 }
+
+.search-box button:hover{
+
+box-shadow:0 0 10px rgba(34,211,238,0.6);
+
+}
+
+
+/* ================= TITLE ================= */
 
 .title{
+
 text-align:center;
+
 margin-top:20px;
+
+font-size:28px;
+
+color:#8b5cf6;
+
 }
 
-/* CONTAINER */
+
+/* ================= CONTAINER ================= */
 
 .recruit-container{
+
 width:65%;
+
 margin:auto;
+
 margin-top:40px;
+
 display:flex;
+
 flex-direction:column;
-gap:15px;
+
+gap:18px;
+
 }
 
-/* CARD */
+
+/* ================= RECRUIT CARD ================= */
 
 .recruit-card{
-background:#1b2c57;
-border-radius:28px;
-padding:18px 22px;
+
+background:#111827;
+
+border-radius:22px;
+
+padding:20px 25px;
 
 display:flex;
+
 justify-content:space-between;
+
 align-items:center;
 
-border:1px solid rgba(77,163,255,0.5);
+border:1px solid rgba(255,255,255,0.05);
 
-box-shadow:
-0 0 10px rgba(77,163,255,0.5),
-0 0 25px rgba(77,163,255,0.25);
+transition:0.3s;
 
-transition:0.25s;
 }
 
 .recruit-card:hover{
-box-shadow:
-0 0 15px rgba(77,163,255,0.8),
-0 0 40px rgba(77,163,255,0.4);
 
-transform:translateY(-3px);
+transform:translateY(-5px) scale(1.01);
+
+box-shadow:
+0 15px 35px rgba(0,0,0,0.7),
+0 0 18px rgba(139,92,246,0.3);
+
 }
 
-/* LEFT SIDE */
+
+/* ================= LEFT SIDE ================= */
 
 .recruit-left{
+
 display:flex;
+
 align-items:center;
-gap:22px;   /* increased space */
+
+gap:22px;
+
 }
 
-/* GAME LOGO */
+
+/* ================= GAME LOGO ================= */
 
 .game-logo{
+
 width:105px;
+
 height:105px;
-border-radius:10px;
+
+border-radius:12px;
+
 object-fit:cover;
-box-shadow:0 0 10px rgba(77,163,255,0.6);
+
+transition:0.3s;
+
 }
 
-/* INFO */
+.recruit-card:hover .game-logo{
+
+transform:scale(1.05);
+
+box-shadow:
+0 0 14px rgba(139,92,246,0.5);
+
+}
+
+
+/* ================= INFO ================= */
 
 .recruit-info h3{
+
 font-size:24px;
-margin-bottom:4px;
-color:#4da3ff;
+
+margin-bottom:5px;
+
+color:#22d3ee;
+
 }
 
 .recruit-info p{
+
 font-size:16px;
+
 margin:3px 0;
-color:#e2e7ff;
+
+color:#d6e0ff;
+
 }
 
-/* RECRUITER */
+
+/* ================= RECRUITER ================= */
 
 .recruiter{
+
 display:flex;
+
 align-items:center;
-gap:6px;
+
+gap:8px;
+
 }
 
 .recruiter-link{
+
 font-size:16px;
+
 font-weight:bold;
-color:#4da3ff;
+
+color:#22d3ee;
+
 text-decoration:none;
+
+transition:0.2s;
+
 }
 
 .recruiter-link:hover{
+
 text-shadow:
-0 0 6px #4da3ff,
-0 0 14px rgba(77,163,255,0.8);
+0 0 6px #22d3ee,
+0 0 14px rgba(34,211,238,0.7);
+
 }
 
-/* RECRUITER AVATAR */
+
+/* ================= RECRUITER AVATAR ================= */
 
 .recruiter-avatar{
+
 width:32px;
+
 height:32px;
+
 border-radius:50%;
-margin-right:6px;
-border:1px solid #4da3ff;
+
+border:1px solid rgba(34,211,238,0.5);
+
 }
 
-/* APPLY BUTTON */
+
+/* ================= APPLY BUTTON ================= */
 
 .apply-btn{
-background:#4da3ff;
+
+background:linear-gradient(135deg,#3b82f6,#22d3ee);
+
 border:none;
-padding:8px 18px;
+
+padding:9px 20px;
+
 border-radius:20px;
+
 color:white;
+
 font-weight:600;
+
 cursor:pointer;
-transition:all 0.2s ease;
+
+transition:0.25s;
+
 }
 
 .apply-btn:hover{
-background:#2f85e0;
+
+box-shadow:
+0 0 10px rgba(34,211,238,0.7);
+
 transform:scale(1.05);
+
 }
 
-/* APPLIED BUTTON */
+
+/* ================= APPLIED BUTTON ================= */
 
 .applied-btn{
+
 background:#1ecb81;
+
 border:none;
-padding:8px 18px;
+
+padding:9px 20px;
+
 border-radius:20px;
+
 color:white;
+
 font-weight:600;
+
 cursor:default;
+
 }
-/* STATS CONTAINER */
+
+
+/* ================= STATS CONTAINER ================= */
 
 .recruit-stats{
+
 display:flex;
+
 gap:10px;
+
 margin-top:6px;
+
 flex-wrap:wrap;
+
 }
 
 
-/* GENERAL BADGE STYLE */
+/* ================= BADGE STYLE ================= */
 
 .stat{
+
 font-size:13px;
+
 padding:4px 10px;
+
 border-radius:20px;
+
 font-weight:600;
+
 }
 
 
 /* PLATFORM BADGE */
 
 .platform{
-background:rgba(77,163,255,0.15);
-color:#4da3ff;
 
-box-shadow:
-0 0 6px rgba(77,163,255,0.5);
+background:rgba(34,211,238,0.15);
+
+color:#22d3ee;
+
+box-shadow:0 0 6px rgba(34,211,238,0.4);
+
 }
 
 
 /* PLAYER SLOT BADGE */
 
 .players{
+
 background:rgba(30,203,129,0.15);
+
 color:#19d27c;
 
-box-shadow:
-0 0 6px rgba(25,210,124,0.6);
+box-shadow:0 0 6px rgba(25,210,124,0.5);
+
 }
 
 
 /* APPLICANT BADGE */
 
 .applicants{
-background:rgba(255,196,0,0.15);
-color:#ffc400;
 
-box-shadow:
-0 0 6px rgba(255,196,0,0.5);
+background:rgba(139,92,246,0.15);
+
+color:#8b5cf6;
+
+box-shadow:0 0 6px rgba(139,92,246,0.4);
+
 }

@@ -1,0 +1,228 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Arial,sans-serif;
+}
+
+body{
+
+background:linear-gradient(
+120deg,
+#0b0f1c,
+#111827,
+#0f172a,
+#1a1f3b
+);
+
+background-size:300% 300%;
+animation:bgMove 18s ease infinite;
+
+color:white;
+min-height:100vh;
+
+}
+
+@keyframes bgMove{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
+}
+
+
+/* NAVBAR */
+
+.navbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 40px;
+
+background:rgba(10,14,30,0.85);
+
+backdrop-filter:blur(8px);
+
+border-bottom:1px solid rgba(139,92,246,0.3);
+
+}
+
+.logo{
+
+font-size:24px;
+font-weight:700;
+
+color:#22d3ee;
+
+cursor:pointer;
+
+}
+
+.avatar{
+
+width:38px;
+height:38px;
+
+border-radius:50%;
+
+border:2px solid #22d3ee;
+
+}
+
+
+/* MAIN */
+
+main{
+
+display:flex;
+justify-content:center;
+
+padding:60px;
+
+}
+
+
+/* CARD */
+
+.recruit-container{
+
+width:520px;
+
+background:rgba(17,24,39,0.65);
+
+backdrop-filter:blur(10px);
+
+padding:35px;
+
+border-radius:18px;
+
+border:1px solid rgba(255,255,255,0.05);
+
+box-shadow:
+0 15px 40px rgba(0,0,0,0.7);
+
+}
+
+.recruit-container h1{
+
+margin-bottom:25px;
+
+color:#22d3ee;
+
+text-align:center;
+
+}
+
+
+/* FORM */
+
+form{
+
+display:flex;
+flex-direction:column;
+
+gap:16px;
+
+}
+
+input,
+select,
+textarea{
+
+padding:12px;
+
+border-radius:10px;
+
+border:1px solid rgba(255,255,255,0.08);
+
+background:rgba(255,255,255,0.05);
+
+color:white;
+
+font-size:14px;
+
+}
+
+
+/* FIX SELECT OPTIONS */
+
+select option{
+
+background:#111827;
+
+color:white;
+
+}
+
+
+textarea{
+
+min-height:120px;
+
+resize:none;
+
+}
+
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#22d3ee;
+
+outline:none;
+
+box-shadow:
+0 0 8px rgba(34,211,238,0.4);
+
+}
+
+
+/* BUTTON */
+
+.submit-btn{
+
+padding:13px;
+
+border:none;
+
+border-radius:25px;
+
+background:linear-gradient(
+135deg,
+#3b82f6,
+#22d3ee
+);
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.25s;
+
+}
+
+.submit-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 12px rgba(34,211,238,0.6);
+
+}
+
+
+/* MESSAGE */
+
+#message{
+
+margin-top:15px;
+
+text-align:center;
+
+}

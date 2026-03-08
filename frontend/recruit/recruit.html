@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Create Recruit</title>
+
+<link rel="stylesheet" href="recruit.css">
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+<h2 class="logo" onclick="goHome()">GameZone</h2>
+
+<div class="nav-user">
+
+<img id="navAvatar" class="avatar">
+
+<span id="navUsername"></span>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="recruit-container">
+
+<h1>Create Recruitment</h1>
+
+
+<form id="recruitForm">
+
+<input
+type="text"
+id="gamename"
+placeholder="Game Name"
+required
+>
+
+
+<select id="platform">
+
+<option value="">Select Platform</option>
+
+<option value="pc">PC</option>
+
+<option value="console">Console</option>
+
+<option value="mobile">Mobile</option>
+
+</select>
+
+
+<input
+type="number"
+id="numofplayer"
+placeholder="Number of Players Needed"
+required
+>
+
+
+<textarea
+id="description"
+placeholder="Description (optional)"
+></textarea>
+
+
+<button class="submit-btn">
+
+Create Recruit Request
+
+</button>
+
+
+</form>
+
+
+<p id="message"></p>
+
+
+</div>
+
+</main>
+
+
+<script src="recruit.js"></script>
+
+</body>
+
+</html>

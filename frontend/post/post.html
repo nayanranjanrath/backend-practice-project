@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Post - GameZone</title>
+  <link rel="stylesheet" href="post.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <h2 class="logo" onclick="goHome()">GameZone</h2>
+
+    <div class="profile-section">
+      <img id="avatar" class="avatar">
+      <span id="usernameDisplay"></span>
+    </div>
+  </header>
+
+  <!-- POST FORM -->
+  <main>
+    <div class="post-container">
+      <h1>Create New Post</h1>
+
+      <form id="postForm">
+
+        <input 
+          type="text" 
+          id="title" 
+          placeholder="Post Title" 
+          required
+        >
+
+        <textarea 
+          id="description" 
+          placeholder="Write something about this post..."
+        ></textarea>
+
+        <label class="upload-label">
+          Upload Images
+          <input 
+            type="file" 
+            id="images" 
+            multiple 
+            accept="image/*"
+          >
+        </label>
+
+        <div id="imagePreview" class="image-preview"></div>
+
+        <button type="submit" class="submit-btn">
+          Post
+        </button>
+
+      </form>
+    </div>
+  </main>
+
+  <script src="post.js"></script>
+</body>
+</html>

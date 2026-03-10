@@ -430,30 +430,53 @@ const follow = async (req, res) => {
 
 }
 const allieslist = async (req, res) => {
-  try {
-    const username = req.params
-    if (!username) {
-      console.log("username is required ")
-      return res.status(400).json({ success: false, reson: "username is required which is missing " })
-    }
-    const user = await usermodel.findOne(username)
+  
+   console.log("showallies controller reached ")
+try {
+    const { username } = req.body;
+
+    // find the user first
+    const user = await usermodel.findOne({ username });
+
     if (!user) {
-      console.log("invaliod user")
-      return res.status(400).json({ success: false, reson: "user is invalid  " })
+      return res.status(404).json({ message: "User not found" });
     }
-    const allies = await alliesmodel.find({ $or: [{ allie1: user }, { allie2: user }] })
-    if (!allies) {
-      console.log("you dont have any allies ")
-      return res.status(400).json({ success: false, reson: "you dont have any allies" })
-    }
-    console.log("every thing is fine and printing the allies list ")
-    return res.status(200).json({ success: true, allieslist: allies })
+
+    // find alliances
+    const allies = await alliesmodel.find({
+      $or: [{ allie1: user._id }, { allie2: user._id }]
+    })
+      .populate("allie1", "username avatar _id")
+      .populate("allie2", "username avatar _id");
+
+    // extract the OTHER user
+    const result = allies.map((a) => {
+      if (a.allie1._id.toString() === user._id.toString()) {
+       return {
+    user: a.allie2,
+    id: a.allie2._id
+  };
+
+      } else {
+       return {
+    user: a.allie1,
+    id: a.allie1._id
+  };
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      allies: result
+    });
 
   } catch (error) {
-    console.log("you are inside the catch block ")
-    console.log(error)
-    return res.status(500).json({ success: false, reson: "you are in side the catch block " })
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
+
 }
 const gamedetails = async (req, res) => {
   try {
@@ -845,7 +868,31 @@ const getFeed = async (req, res) => {
     });
   }
 };
+const showgamechat =async(req,res)=>{
+  console.log("showallies controller reached ")
+try {
+  const username=req.body;
+    const  userId  = await usermodel.findOne(username)
+// console.log(userId)
+    const games = await gamechatmodel.find({
+      $or: [
+        { recruiter: userId },
+        { otherplayer: userId }
+      ]
+    }).select("gamename");
+
+    res.status(200).json({
+      success: true,
+      games,userId
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
 
 
-
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed}
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed,showgamechat}

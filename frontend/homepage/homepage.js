@@ -45,7 +45,7 @@ function goToSearch() {
 }
 
 function goToChat() {
-  window.location.href = "chat.html";
+  window.location.href = "http://localhost:3000/chartsection/chartsection.html";
 }
 
 function goToRecruit() {

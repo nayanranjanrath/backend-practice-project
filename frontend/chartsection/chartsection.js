@@ -45,7 +45,7 @@ async function loadAllies(){
 
 try{
 
-const username = localStorage.getItem("username");
+
 
 console.log("Sending username:", username);
 

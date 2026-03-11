@@ -454,13 +454,13 @@ try {
       if (a.allie1._id.toString() === user._id.toString()) {
        return {
     user: a.allie2,
-    id: a.allie2._id
+    id:user._id
   };
 
       } else {
        return {
     user: a.allie1,
-    id: a.allie1._id
+      id:user._id
   };
       }
     });

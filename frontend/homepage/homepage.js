@@ -36,12 +36,16 @@ const response = await fetch(
 
 
 
-function goToSearch() {
-  const query = document.getElementById("searchInput").value;
 
-  if (!query) return;
+ function goToSearch() {
 
-  window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+const query = document.getElementById("searchInput").value.trim();
+
+if (!query) return;
+
+window.location.href =
+`/search/search.html?q=${encodeURIComponent(query)}`;
+
 }
 
 function goToChat() {

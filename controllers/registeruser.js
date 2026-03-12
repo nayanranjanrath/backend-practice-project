@@ -533,7 +533,8 @@ const searchgames = async (req, res) => {
         $group: {
           _id: "$gamenamelower",
           averagestars: { $avg: "$stars" },
-          totalRatings: { $sum: 1 }
+          totalRatings: { $sum: 1 },
+          reviews: { $push: "$review" }
         }
 
       }
@@ -549,7 +550,8 @@ const searchgames = async (req, res) => {
       rating.map(game => ({
         gamename: game._id,
         averageStars: Number(game.averagestars.toFixed(2)),
-        totalRatings: game.totalRatings
+        totalRatings: game.totalRatings,
+        review: game.reviews.length > 0 ? game.reviews[0] : "No review text provided"
       })))
 
 
@@ -893,6 +895,70 @@ try {
     });
   }
 }
+const getFollowers = async (req, res) => {
+  try {
 
+    const { username } = req.body;
 
-module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed,showgamechat}
+    // find the user
+    const user = await usermodel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    // find followers
+    const followers = await followersandfollowedtomodel.find({
+      channels: user._id
+    }).populate("follower", "username avatar _id");
+
+    // extract follower users
+    const result = followers.map(f => f.follower);
+
+    res.status(200).json({
+      success: true,
+      followers: result
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+};
+const getGamesByUsername = async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    // find user
+    const user = await usermodel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    // find games by user id
+    const games = await gamesplayedmodel.find({ user: user._id });
+
+    res.status(200).json({
+      success: true,
+      total: games.length,
+      games
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+module.exports = { registeruser, loginuser, logoutuser, refreshaccesstokenofuser, getuserprofile, uploadpost, myposts, follow, allieslist, gamedetails, searchgames, recruit, showrecruit, applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed,showgamechat,getFollowers,getGamesByUsername}

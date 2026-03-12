@@ -2,10 +2,20 @@ function goHome(){
 window.location.href="http://localhost:3000/homepage/homepage.html";
 }
 
-const viewer = localStorage.getItem("username")
+function showgames(){
+window.location.href="http://localhost:3000/showgames/showgames.html";
+}
+
+function showfollowers(){
+window.location.href="http://localhost:3000/follower/follower.html";
+}
+
+const viewer = localStorage.getItem("username");
+
+/* ================= GET USERNAME FROM URL ================= */
 
 function getUsernameFromURL(){
-const params=new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 return params.get("username");
 }
 
@@ -28,9 +38,8 @@ const ranks = [
 
 ];
 
-
 function getPlayerRank(games){
-
+games =105
 for(let r of ranks){
 
 if(games >= r.min && games <= r.max){
@@ -39,6 +48,8 @@ return r;
 
 }
 
+return ranks[0];
+
 }
 
 
@@ -46,33 +57,32 @@ return r;
 
 async function loadProfile(){
 
-const profileUsername=getUsernameFromURL();
-const loggedUser=localStorage.getItem("username");
+const profileUsername = getUsernameFromURL();
+const loggedUser = localStorage.getItem("username");
 
-const res=await fetch(`http://localhost:3000/api/${profileUsername}?viewer=${viewer}`);
-const data=await res.json();
+const res = await fetch(`http://localhost:3000/api/${profileUsername}?viewer=${viewer}`);
+const data = await res.json();
 
-const user=data.channel;
-
-
-/* NAVBAR */
-
-document.getElementById("navUsername").textContent=loggedUser;
-document.getElementById("navAvatar").src=user.avatar;
+const user = data.channel;
 
 
-/* PROFILE */
+/* ================= NAVBAR ================= */
 
-document.getElementById("profileAvatar").src=user.avatar;
-document.getElementById("profileUsername").textContent=user.username;
-document.getElementById("profileFullname").textContent=user.fullname;
+document.getElementById("navUsername").textContent = loggedUser;
+document.getElementById("navAvatar").src = user.avatar;
 
 
-/* STATS */
+/* ================= PROFILE ================= */
 
-document.getElementById("gamesCount").textContent=user.numofgamesplayed;
-document.getElementById("followersCount").textContent=user.followerscount;
-document.getElementById("followingCount").textContent=user.following;
+document.getElementById("profileAvatar").src = user.avatar;
+document.getElementById("profileFullname").textContent = user.fullname;
+
+
+/* ================= STATS ================= */
+
+document.getElementById("gamesCount").textContent = user.numofgamesplayed;
+document.getElementById("followersCount").textContent = user.followerscount;
+document.getElementById("followingCount").textContent = user.following;
 
 
 /* ================= RANK SYSTEM ================= */
@@ -81,7 +91,36 @@ const gamesPlayed = user.numofgamesplayed;
 
 const rank = getPlayerRank(gamesPlayed);
 
-document.getElementById("avatarRing").classList.add(rank.class);
+
+/* elements */
+
+const banner = document.getElementById("banner");
+const avatarRing = document.getElementById("avatarRing");
+const profileCard = document.querySelector(".profile-card");
+const usernameEl = document.getElementById("profileUsername");
+
+
+/* apply rank classes */
+
+banner.classList.add(rank.class);
+
+avatarRing.classList.add(rank.class);
+
+profileCard.classList.add(rank.class);
+
+
+/* username styling */
+
+usernameEl.classList.add("rank-name");
+usernameEl.classList.add(rank.class + "-name");
+
+
+/* rank icon before username */
+
+usernameEl.textContent = `${rank.icon} ${user.username}`;
+
+
+/* rank badges */
 
 document.getElementById("rankBadge").textContent =
 `${rank.icon} ${rank.title}`;
@@ -92,13 +131,16 @@ document.getElementById("gamesBadge").textContent =
 
 /* ================= PROGRESS SYSTEM ================= */
 
-const nextRank = ranks[ranks.indexOf(rank)+1];
+const nextRank = ranks[ranks.indexOf(rank) + 1];
 
 if(nextRank){
 
 const progress =
+Math.min(
 ((gamesPlayed - rank.min) /
-(nextRank.min - rank.min)) * 100;
+(nextRank.min - rank.min)) * 100,
+100
+);
 
 document.getElementById("rankProgress").style.width =
 progress + "%";
@@ -109,6 +151,7 @@ document.getElementById("nextRankText").textContent =
 }else{
 
 document.getElementById("rankProgress").style.width = "100%";
+
 document.getElementById("nextRankText").textContent =
 "Maximum Rank Achieved";
 
@@ -120,10 +163,14 @@ document.getElementById("nextRankText").textContent =
 const followBtn = document.getElementById("followBtn");
 
 if (user.isfollowed) {
-  followBtn.textContent = "Followed";
-  followBtn.disabled = true;
+
+followBtn.textContent = "Followed";
+followBtn.disabled = true;
+
 } else {
-  followBtn.textContent = "Follow";
+
+followBtn.textContent = "Follow";
+
 }
 
 followBtn.onclick = async () => {
@@ -142,8 +189,8 @@ username:loggedUser
 
 if(response.status === 200){
 
-followBtn.textContent="Followed";
-followBtn.disabled=true;
+followBtn.textContent = "Followed";
+followBtn.disabled = true;
 
 }
 
@@ -161,30 +208,36 @@ loadPosts(profileUsername);
 
 async function loadPosts(username){
 
-const res=await fetch(`http://localhost:3000/api/${username}/posts`);
-const data=await res.json();
+const res = await fetch(`http://localhost:3000/api/${username}/posts`);
+const data = await res.json();
 
-const posts=data.posts.posts;
+const posts = data.posts.posts;
 
-const container=document.getElementById("postsContainer");
+const container = document.getElementById("postsContainer");
 
-container.innerHTML="";
+container.innerHTML = "";
 
-posts.forEach(post=>{
+posts.forEach(post => {
 
-let images="";
+let images = "";
 
 if(Array.isArray(post.postcontent)){
-images=post.postcontent.map(img=>`<img src="${img}" class="post-img">`).join("");
+
+images = post.postcontent
+.map(img => `<img src="${img}" class="post-img">`)
+.join("");
+
 }else{
-images=`<img src="${post.postcontent}" class="post-img">`;
+
+images = `<img src="${post.postcontent}" class="post-img">`;
+
 }
 
-const card=document.createElement("div");
+const card = document.createElement("div");
 
-card.className="post-card";
+card.className = "post-card";
 
-card.innerHTML=`
+card.innerHTML = `
 <h3>${post.tittle}</h3>
 ${images}
 `;
@@ -195,5 +248,7 @@ container.appendChild(card);
 
 }
 
+
+/* ================= START ================= */
 
 loadProfile();

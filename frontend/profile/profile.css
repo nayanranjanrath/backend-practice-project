@@ -1,5 +1,3 @@
-/* ================= GLOBAL ================= */
-
 *{
 margin:0;
 padding:0;
@@ -7,172 +5,153 @@ box-sizing:border-box;
 font-family:'Segoe UI',Arial,sans-serif;
 }
 
+/* BACKGROUND */
+
 body{
-
-background:linear-gradient(
-120deg,
-#0b0f1c,
-#111827,
-#0f172a,
-#1a1f3b
-);
-
+background:linear-gradient(120deg,#0b0f1c,#111827,#0f172a,#1a1f3b);
 background-size:300% 300%;
 animation:bgMove 18s ease infinite;
-
 color:white;
 min-height:100vh;
-
 }
 
 @keyframes bgMove{
-
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
-
 }
 
 
-/* ================= NAVBAR ================= */
+/* NAVBAR */
 
 .navbar{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:15px 40px;
-
 background:rgba(10,14,30,0.85);
-
 backdrop-filter:blur(8px);
-
 border-bottom:1px solid rgba(139,92,246,0.3);
-
 }
 
 .logo{
-
 font-size:24px;
 font-weight:700;
-
 color:#22d3ee;
-
 cursor:pointer;
-
-text-shadow:0 0 6px rgba(34,211,238,0.6);
-
 }
 
 .avatar{
-
 width:38px;
 height:38px;
-
 border-radius:50%;
-
 border:2px solid #22d3ee;
-
-transition:0.25s;
-
-}
-
-.avatar:hover{
-
-box-shadow:0 0 12px rgba(34,211,238,0.7);
-
 }
 
 
-/* ================= BANNER ================= */
+/* BANNER */
 
 .banner{
-
-height:320px;
-
-background:linear-gradient(
-135deg,
-#111827,
-#1f2937
-);
-
+height:220px;
+background:linear-gradient(135deg,#111827,#1f2937);
 display:flex;
 align-items:center;
 justify-content:center;
+position:relative;
+overflow:hidden;
+}
 
-border-bottom:1px solid rgba(255,255,255,0.05);
+/* RANK BANNERS */
 
+.banner.rank-rookie{
+background:linear-gradient(135deg,#1f2937,#111827);
+}
+
+.banner.rank-apprentice{
+background:linear-gradient(135deg,#052e16,#14532d);
+}
+
+.banner.rank-warrior{
+background:linear-gradient(135deg,#0f172a,#1e3a8a);
+}
+
+.banner.rank-champion{
+background:linear-gradient(135deg,#1e1b4b,#581c87);
+}
+
+.banner.rank-elite{
+background:linear-gradient(135deg,#2a2200,#78350f);
+}
+
+.banner.rank-legend{
+background:linear-gradient(135deg,#020617,#1e1b4b,#020617);
 }
 
 
-/* PROFILE CENTER */
+/* PROFILE HEADER */
 
-.banner-overlay{
+.profile-header{
 text-align:center;
+margin-top:-70px;
+margin-bottom:40px;
 }
 
 
-/* ================= AVATAR RING ================= */
+/* AVATAR */
 
 .avatar-ring{
-
 width:140px;
 height:140px;
-
+margin:auto;
+position:relative;
+border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-
-border-radius:50%;
-
-position:relative;
-
-margin:auto;
-
+background:#0f172a;
 }
 
-/* Avatar */
+/* glow under avatar */
 
-.profile-avatar{
-
-width:120px;
-height:120px;
-
+.avatar-ring::after{
+content:"";
+position:absolute;
+width:180px;
+height:180px;
 border-radius:50%;
-
-position:relative;
-z-index:2;
-
+filter:blur(25px);
+background:radial-gradient(circle,#22d3ee66,transparent);
+z-index:-1;
 }
 
-
-/* Ring animation */
+/* rotating rank ring */
 
 .avatar-ring::before{
-
 content:"";
-
 position:absolute;
-
 width:140px;
 height:140px;
-
 border-radius:50%;
-
-animation:spinRing 6s linear infinite;
-
+animation:spinRing 3s linear infinite;
+z-index:1;
 }
 
 @keyframes spinRing{
-
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
+}
 
+.profile-avatar{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+position:relative;
+z-index:2;
 }
 
 
-/* ================= RANK RINGS ================= */
+/* RANK RINGS */
 
 .rank-rookie::before{
 background:conic-gradient(#777,#555,#777);
@@ -195,301 +174,251 @@ background:conic-gradient(#facc15,#fde047,#facc15);
 }
 
 .rank-legend::before{
-
-background:conic-gradient(
-#ff4d6d,
-#8b5cf6,
-#22d3ee,
-#ff4d6d
-);
-
+background:conic-gradient(#ff4d6d,#8b5cf6,#22d3ee,#ff4d6d);
 animation:spinRing 3s linear infinite;
-
 }
 
 
-/* ================= RANK BADGES ================= */
-
-.rank-badge{
-
-margin-top:10px;
-
-font-size:18px;
-
-font-weight:bold;
-
-color:#22d3ee;
-
-}
-
-.games-badge{
-
-margin-top:4px;
-
-font-size:14px;
-
-color:#facc15;
-
-}
-
-
-/* ================= RANK PROGRESS ================= */
+/* PROGRESS BAR */
 
 .rank-progress-container{
-
 margin-top:10px;
-
-text-align:center;
-
 }
 
 .rank-bar{
-
 width:220px;
 height:10px;
-
 background:#111;
-
 border-radius:10px;
-
 margin:auto;
-
 overflow:hidden;
-
 }
 
 .rank-progress{
-
 height:100%;
-
-background:linear-gradient(
-90deg,
-#22d3ee,
-#8b5cf6
-);
-
+background:linear-gradient(90deg,#22d3ee,#8b5cf6);
 width:0%;
-
 transition:1s;
-
-}
-
-.next-rank{
-
-margin-top:6px;
-
-font-size:13px;
-
-color:#ccc;
-
 }
 
 
-/* ================= LAYOUT ================= */
+/* POSTS */
 
 .profile-layout{
-
 display:flex;
-
 gap:40px;
-
 padding:40px;
-
 max-width:1200px;
-
 margin:auto;
-
 }
-
-
-/* ================= POSTS ================= */
-
-.posts-section{
-flex:2;
-}
-
-.section-title{
-
-color:#8b5cf6;
-
-margin-bottom:20px;
-
-font-size:20px;
-
-}
-
-
-/* POSTS GRID */
 
 .posts-grid{
-
 display:grid;
-
 grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-
 gap:20px;
-
 }
-
-
-/* POST CARD */
 
 .post-card{
-
 background:rgba(17,24,39,0.65);
-
-backdrop-filter:blur(10px);
-
 border-radius:14px;
-
 padding:15px;
-
-border:1px solid rgba(255,255,255,0.05);
-
-transition:0.3s;
-
 }
-
-.post-card:hover{
-
-transform:translateY(-5px);
-
-box-shadow:
-0 0 15px rgba(139,92,246,0.3),
-0 15px 40px rgba(0,0,0,0.8);
-
-}
-
-
-/* POST IMAGE */
 
 .post-img{
-
 width:100%;
-
 border-radius:10px;
-
 margin-top:10px;
-
-transition:0.3s;
-
-}
-
-.post-img:hover{
-
-transform:scale(1.05);
-
-box-shadow:
-0 0 10px rgba(139,92,246,0.4);
-
-}
-
-
-/* ================= PROFILE SIDE ================= */
-
-.profile-side{
-flex:1;
 }
 
 
 /* PROFILE CARD */
 
+.profile-side{
+flex:1;
+min-width:320px;
+}
+
 .profile-card{
-
 background:rgba(17,24,39,0.65);
-
-backdrop-filter:blur(10px);
-
-padding:25px;
-
+padding:30px;
 border-radius:16px;
-
-border:1px solid rgba(255,255,255,0.05);
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.7);
-
 }
 
 
-/* ================= STATS ================= */
+/* STATS */
 
 .stats{
-
 display:flex;
-
-justify-content:space-around;
-
-margin-bottom:20px;
-
+justify-content:space-between;
+gap:15px;
+margin-bottom:25px;
 }
 
 .stat{
-
+flex:1;
 text-align:center;
-
+padding:12px;
+border-radius:10px;
+background:rgba(255,255,255,0.03);
 }
 
 .stat span{
-
 font-size:22px;
-
 font-weight:bold;
-
 color:#22d3ee;
+}
 
+.stat p{
+font-size:13px;
+color:#aaa;
+margin-top:4px;
 }
 
 
-/* CLICKABLE */
-
-.clickable{
-cursor:pointer;
-}
-
-.clickable:hover{
-
-color:#22d3ee;
-
-text-shadow:
-0 0 6px rgba(34,211,238,0.7);
-
-}
-
-
-/* ================= FOLLOW BUTTON ================= */
+/* FOLLOW BUTTON */
 
 .follow-btn{
-
 width:100%;
-
 padding:12px;
-
 border:none;
-
 border-radius:25px;
-
-background:linear-gradient(
-135deg,
-#3b82f6,
-#22d3ee
-);
-
+background:linear-gradient(135deg,#3b82f6,#22d3ee);
 color:white;
-
 cursor:pointer;
+}
+.stat:hover{
 
-font-weight:600;
+background:rgba(34,211,238,0.08);
 
-transition:0.25s;
+transform:translateY(-3px);
+
+box-shadow:0 0 10px rgba(34,211,238,0.3);
+
+}
+/* PROFILE ENTRY */
+
+.profile-header{
+animation:profileEnter 0.9s ease;
+}
+
+@keyframes profileEnter{
+
+0%{
+opacity:0;
+transform:translateY(40px) scale(.9);
+}
+
+100%{
+opacity:1;
+transform:translateY(0) scale(1);
+}
 
 }
 
-.follow-btn:hover{
+/* AVATAR AURA PULSE */
 
-transform:translateY(-2px);
+.avatar-ring::after{
+animation:auraPulse 2.5s infinite ease-in-out;
+}
 
-box-shadow:
-0 0 14px rgba(34,211,238,0.6);
+@keyframes auraPulse{
+
+0%{
+transform:scale(.9);
+opacity:.4;
+}
+
+50%{
+transform:scale(1.15);
+opacity:.8;
+}
+
+100%{
+transform:scale(.9);
+opacity:.4;
+}
+
+}
+/* RANK SPEED EFFECTS */
+
+.rank-rookie::before{
+animation-duration:7s;
+}
+
+.rank-warrior::before{
+animation-duration:4s;
+}
+
+.rank-champion::before{
+animation-duration:3s;
+}
+
+.rank-elite::before{
+animation-duration:2.2s;
+}
+
+.rank-legend::before{
+animation-duration:1.5s;
+}
+
+/* LEGEND PARTICLES */
+
+.banner.rank-legend::after{
+
+content:"";
+
+position:absolute;
+
+width:200%;
+height:200%;
+
+background:
+radial-gradient(circle,#22d3ee 2px,transparent 2px),
+radial-gradient(circle,#8b5cf6 2px,transparent 2px),
+radial-gradient(circle,#ff4d6d 2px,transparent 2px);
+
+background-size:120px 120px;
+
+opacity:.25;
+
+animation:particlesMove 25s linear infinite;
+
+}
+
+@keyframes particlesMove{
+
+from{transform:translateY(0);}
+to{transform:translateY(200px);}
+
+}
+
+/* USERNAME GLOW */
+
+.rank-champion-name{
+text-shadow:0 0 10px #c084fc;
+}
+
+.rank-elite-name{
+text-shadow:0 0 12px #fde047;
+}
+
+.rank-legend-name{
+
+background:linear-gradient(90deg,#ff4d6d,#8b5cf6,#22d3ee);
+
+background-size:300%;
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+animation:legendText 6s linear infinite;
+
+}
+
+@keyframes legendText{
+
+0%{background-position:0%}
+100%{background-position:300%}
 
 }

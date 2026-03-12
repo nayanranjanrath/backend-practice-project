@@ -9,42 +9,46 @@
 <body>
 
 <header class="navbar">
-  <h2 class="logo" onclick="goHome()">GameZone</h2>
 
-  <div class="nav-user">
-    <img id="navAvatar" class="avatar">
-    <span id="navUsername"></span>
-  </div>
+<h2 class="logo" onclick="goHome()">GameZone</h2>
+
+<div class="nav-user">
+<img id="navAvatar" class="avatar">
+<span id="navUsername"></span>
+</div>
+
 </header>
 
 
-<!-- GAMING BANNER -->
-<section class="banner">
-  <div class="banner-overlay">
+<!-- GAMER BANNER -->
 
-    <div id="avatarRing" class="avatar-ring">
-      <img id="profileAvatar" class="profile-avatar">
-    </div>
+<section id="banner" class="banner"></section>
 
-    <h1 id="profileUsername"></h1>
-    <p id="profileFullname"></p>
 
-    <!-- Rank + Games badges -->
-    <div id="rankBadge" class="rank-badge"></div>
-    <div id="gamesBadge" class="games-badge"></div>
+<!-- PROFILE HEADER -->
 
-    <!-- Rank Progress -->
-    <div class="rank-progress-container">
+<section class="profile-header">
 
-      <div class="rank-bar">
-        <div id="rankProgress" class="rank-progress"></div>
-      </div>
+<div id="avatarRing" class="avatar-ring">
+<img id="profileAvatar" class="profile-avatar">
+</div>
 
-      <p id="nextRankText" class="next-rank"></p>
+<h1 id="profileUsername"></h1>
+<p id="profileFullname"></p>
 
-    </div>
+<div id="rankBadge" class="rank-badge"></div>
+<div id="gamesBadge" class="games-badge"></div>
 
-  </div>
+<div class="rank-progress-container">
+
+<div class="rank-bar">
+<div id="rankProgress" class="rank-progress"></div>
+</div>
+
+<p id="nextRankText" class="next-rank"></p>
+
+</div>
+
 </section>
 
 
@@ -65,19 +69,19 @@
 
 <div class="stats">
 
-<div class="stat clickable" id="gamesStat">
+<div class="stat clickable" onclick="showgames()">
 <span id="gamesCount"></span>
-<p>Games Played</p>
+<p>🎮 Games</p>
 </div>
 
-<div class="stat">
+<div class="stat clickable" onclick="showfollowers()">
 <span id="followersCount"></span>
-<p>Followers</p>
+<p>👥 Followers</p>
 </div>
 
 <div class="stat">
 <span id="followingCount"></span>
-<p>Following</p>
+<p>➡ Following</p>
 </div>
 
 </div>

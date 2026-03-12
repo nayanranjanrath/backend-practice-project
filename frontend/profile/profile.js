@@ -39,7 +39,7 @@ const ranks = [
 ];
 
 function getPlayerRank(games){
-games =105
+
 for(let r of ranks){
 
 if(games >= r.min && games <= r.max){

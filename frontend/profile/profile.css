@@ -113,15 +113,51 @@ background:#0f172a;
 
 /* glow under avatar */
 
+/* ENERGY AURA */
+
 .avatar-ring::after{
+
 content:"";
+
 position:absolute;
-width:180px;
-height:180px;
+
+width:200px;
+height:200px;
+
 border-radius:50%;
-filter:blur(25px);
-background:radial-gradient(circle,#22d3ee66,transparent);
-z-index:-1;
+
+background:radial-gradient(
+circle,
+rgba(34,211,238,.8) 0%,
+rgba(139,92,246,.6) 40%,
+transparent 70%
+);
+
+filter:blur(30px);
+
+animation:energyPulse 2.2s infinite ease-in-out;
+
+z-index:0;
+
+}
+
+@keyframes energyPulse{
+
+0%{
+transform:scale(.85);
+opacity:.5;
+}
+
+50%{
+transform:scale(1.2);
+opacity:1;
+}
+
+100%{
+transform:scale(.85);
+opacity:.5;
+}
+
 }
 
 /* rotating rank ring */
@@ -361,9 +397,7 @@ animation-duration:2.2s;
 animation-duration:1.5s;
 }
 
-/* LEGEND PARTICLES */
-
-.banner.rank-legend::after{
+.banner.rank-warrior::before{
 
 content:"";
 
@@ -373,22 +407,90 @@ width:200%;
 height:200%;
 
 background:
-radial-gradient(circle,#22d3ee 2px,transparent 2px),
-radial-gradient(circle,#8b5cf6 2px,transparent 2px),
-radial-gradient(circle,#ff4d6d 2px,transparent 2px);
 
-background-size:120px 120px;
+radial-gradient(circle,#3b82f6 3px,transparent 3px);
+
+background-size:80px 80px;
 
 opacity:.25;
 
-animation:particlesMove 25s linear infinite;
+animation:particleMove 12s linear infinite;
+
+}
+.banner.rank-champion::before{
+
+content:"";
+
+position:absolute;
+
+width:200%;
+height:200%;
+
+background:
+
+radial-gradient(circle,#8b5cf6 3px,transparent 3px),
+radial-gradient(circle,#3b82f6 2px,transparent 2px);
+
+background-size:70px 70px;
+
+opacity:.35;
+
+animation:particleMove 10s linear infinite;
+
+}
+.banner.rank-elite::before{
+
+content:"";
+
+position:absolute;
+
+width:200%;
+height:200%;
+
+background:
+
+radial-gradient(circle,#facc15 4px,transparent 4px),
+radial-gradient(circle,#fde047 2px,transparent 2px);
+
+background-size:60px 60px;
+
+opacity:.4;
+
+animation:particleMove 8s linear infinite;
+
+}
+.banner.rank-legend::before{
+
+content:"";
+
+position:absolute;
+
+width:200%;
+height:200%;
+
+background:
+
+radial-gradient(circle,#22d3ee 4px,transparent 4px),
+radial-gradient(circle,#ff4d6d 3px,transparent 3px),
+radial-gradient(circle,#8b5cf6 2px,transparent 2px);
+
+background-size:60px 60px;
+
+opacity:.6;
+
+animation:particleMove 6s linear infinite;
 
 }
 
-@keyframes particlesMove{
+@keyframes particleMove{
 
-from{transform:translateY(0);}
-to{transform:translateY(200px);}
+0%{
+transform:translateY(0);
+}
+
+100%{
+transform:translateY(200px);
+}
 
 }
 
@@ -421,4 +523,67 @@ animation:legendText 6s linear infinite;
 0%{background-position:0%}
 100%{background-position:300%}
 
+}
+/* AURA COLOR PER RANK */
+
+.rank-warrior::after{
+background:radial-gradient(circle,#3b82f6,#1e40af,transparent);
+}
+
+.rank-champion::after{
+background:radial-gradient(circle,#8b5cf6,#6d28d9,transparent);
+}
+
+.rank-elite::after{
+background:radial-gradient(circle,#facc15,#ca8a04,transparent);
+}
+
+.rank-legend::after{
+background:radial-gradient(circle,#ff4d6d,#8b5cf6,#22d3ee,transparent);
+}
+/* PROFILE CARD RANK EFFECTS */
+
+.profile-card.rank-warrior{
+box-shadow:0 0 20px rgba(59,130,246,.25);
+}
+
+.profile-card.rank-champion{
+box-shadow:0 0 25px rgba(139,92,246,.35);
+}
+
+.profile-card.rank-elite{
+box-shadow:0 0 30px rgba(250,204,21,.4);
+}
+
+.profile-card.rank-legend{
+animation:legendGlow 3s infinite alternate;
+}
+
+@keyframes legendGlow{
+
+0%{
+box-shadow:0 0 30px #ff4d6d;
+}
+
+100%{
+box-shadow:
+0 0 40px #ff4d6d,
+0 0 60px #8b5cf6,
+0 0 80px #22d3ee;
+}
+
+}
+/* STAT HIGHLIGHT */
+
+.rank-champion .stat span{
+color:#c084fc;
+}
+
+.rank-elite .stat span{
+color:#facc15;
+}
+
+.rank-legend .stat span{
+color:#22d3ee;
+text-shadow:0 0 8px #22d3ee;
 }

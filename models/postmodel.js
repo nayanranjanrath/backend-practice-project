@@ -3,18 +3,18 @@ var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 // const { model, default: mongoose } = require('mongoose')
 const postschema  = new Schema(
     {
-postcontent:{
+postcontent:[{
 type:String,
 required:true,
 
-},
+}],
 tittle:{
 type:String,
 required:true,
 },
 postby:{
 type:Schema.Types.ObjectId,
-ref:"User"
+ref:"usermodel"
 
 },
 description:{

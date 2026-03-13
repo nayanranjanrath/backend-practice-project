@@ -2,7 +2,7 @@ const express=require ('express')
 const upload =require("../middlewares/multer.middleware.js")
 const authuser =require("../middlewares/authuser.middleware.js")
 const router = express.Router()
-const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames,recruit,showrecruit,applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat }=require("../controllers/registeruser")
+const {registeruser,loginuser,logoutuser, refreshaccesstokenofuser,getuserprofile,uploadpost,myposts,follow,allieslist,gamedetails,searchgames,recruit,showrecruit,applyforrecruit,showallaplicent,selectplayer,removePlayerfromgroupchat,getFeed,showgamechat,getFollowers,getGamesByUsername }=require("../controllers/registeruser")
 
 router.post('/register',upload.fields([{
 name:"avatar",
@@ -18,16 +18,25 @@ router.post('/rejoin',refreshaccesstokenofuser)
 router.get('/:username',getuserprofile)
 router.post('/post',upload.fields([{
 name:"postcontent",
+maxCount: 5
 }]),uploadpost)
 router.get('/:username/posts',myposts)
 router.post('/:username/follow',follow)
-router.get('/:username/allies',allieslist)
+router.post('/username/allies',allieslist)
 router.post('/:username/addgamesplayed',gamedetails)
 router.get('/games/:gamename',searchgames)
 router.post('/:username/recruit',recruit)
 router.get('/recruit/allrecruits',showrecruit)
-router.post('/recruitmentid/apply',applyforrecruit )
+router.post('/recruit/allrecruits',showrecruit)
+router.post('/recruitment/apply',applyforrecruit )
 router.get('/game/applicantlist',showallaplicent)
 router.post('/recruitplayer/select',selectplayer )
 router.post('/gamechat/removeplayer',removePlayerfromgroupchat)
+router.get("/game/feed/:username", getFeed);
+router.post("/game/allgamechat", showgamechat);
+router.post("/user/followers", getFollowers);
+router.post("/user/game/gamesplayed", getGamesByUsername);
+
+
+
 module.exports=router

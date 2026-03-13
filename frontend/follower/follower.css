@@ -1,0 +1,154 @@
+/* GLOBAL STYLES */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0b0f1c 0%, #111827 100%);
+    color: white;
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: rgba(10, 14, 30, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.logo {
+    color: #22d3ee;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.user-display {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+#currentUsername {
+    color: #22d3ee;
+    font-weight: bold;
+}
+
+/* MAIN CONTENT */
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #8b5cf6;
+    border-left: 4px solid #8b5cf6;
+    padding-left: 15px;
+}
+
+.followers-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* FOLLOWER CARD */
+.follower-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(31, 41, 55, 0.5);
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.follower-card:hover {
+    background: rgba(31, 41, 55, 0.8);
+    border-color: #22d3ee;
+    transform: translateX(10px);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #22d3ee;
+    background-color: #1f2937;
+}
+
+.username-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f3f4f6;
+}
+
+/* BUTTONS & TAGS */
+.btn-follow {
+    background: linear-gradient(135deg, #3b82f6, #22d3ee);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-follow:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+}
+
+.ally-badge {
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
+    border: 1px solid #22c55e;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: default; /* Not clickable */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* TOAST */
+#toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #1f2937;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 1px solid #8b5cf6;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s ease;
+    z-index: 1000;
+}
+
+#toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}

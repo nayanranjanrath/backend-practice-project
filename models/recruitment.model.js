@@ -10,13 +10,12 @@ ref:"usermodel"
 
 
 },
-applicant:{
-type:[Schema.Types.ObjectId],
-ref:"usermodel",
-
-
-
-},
+applicant: [
+  {
+    type: Schema.Types.ObjectId,
+    ref: "usermodel"
+  }
+],
 platformgeneral:{
 type:String,
 enum: ["pc", "console", "mobile","outdoor"],

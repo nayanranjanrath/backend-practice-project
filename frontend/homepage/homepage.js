@@ -15,7 +15,7 @@ const response = await fetch(
 );
 
     const data = await response.json();
-
+console.log(data)
     const user = data.channel;  
 
     // Set username (you can use fullname if you prefer)

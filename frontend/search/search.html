@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Search - GameZone</title>
+    <link rel="stylesheet" href="search.css">
+</head>
+<body>
+
+<header class="navbar">
+    <h2 class="logo" onclick="goHome()">GameZone</h2>
+    <div class="search-box">
+        <input id="searchInput" type="text" placeholder="Search games...">
+        <button onclick="searchGame()">Search</button>
+    </div>
+</header>
+
+<main>
+    <h1 class="title">Search Results</h1>
+    <div id="gamesContainer" class="game-list"></div>
+</main>
+
+<div id="toast"></div>
+
+<script src="search.js"></script>
+</body>
+</html>

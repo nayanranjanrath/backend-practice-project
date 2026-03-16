@@ -134,6 +134,22 @@ message.style.color = "red";
 }
 
 });
+function goToSelectPlayers(){
 
+const gamename =
+document.getElementById("gamename").value;
+
+if(!gamename){
+
+alert("Please enter a game name first");
+
+return;
+
+}
+
+window.location.href =
+`http://localhost:3000/selectplayer/selectPlayers.html?game=${encodeURIComponent(gamename)}`;
+
+}
 
 loadNavbar();

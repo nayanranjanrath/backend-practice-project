@@ -46,19 +46,14 @@ placeholder="Game Name"
 required
 >
 
-
 <select id="platform">
 
 <option value="">Select Platform</option>
-
 <option value="pc">PC</option>
-
 <option value="console">Console</option>
-
 <option value="mobile">Mobile</option>
 
 </select>
-
 
 <input
 type="number"
@@ -67,22 +62,20 @@ placeholder="Number of Players Needed"
 required
 >
 
-
 <textarea
 id="description"
 placeholder="Description (optional)"
 ></textarea>
 
-
 <button class="submit-btn">
-
 Create Recruit Request
-
 </button>
 
+<button type="button" class="select-player-btn" onclick="goToSelectPlayers()">
+Select Players
+</button>
 
 </form>
-
 
 <p id="message"></p>
 

@@ -196,7 +196,40 @@ background:linear-gradient(
 #3b82f6,
 #22d3ee
 );
+.select-player-btn{
 
+margin-top:10px;
+
+padding:12px;
+
+border:none;
+
+border-radius:25px;
+
+background:linear-gradient(
+135deg,
+#8b5cf6,
+#ec4899
+);
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:0.25s;
+
+}
+
+.select-player-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 12px rgba(236,72,153,0.6);
+
+} 
 color:white;
 
 font-weight:bold;

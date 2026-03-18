@@ -587,3 +587,20 @@ color:#facc15;
 color:#22d3ee;
 text-shadow:0 0 8px #22d3ee;
 }
+
+.logout-btn{
+margin-left:15px;
+padding:6px 12px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#ef4444,#f97316);
+color:white;
+cursor:pointer;
+font-size:13px;
+transition:0.2s;
+}
+
+.logout-btn:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px rgba(239,68,68,0.6);
+}

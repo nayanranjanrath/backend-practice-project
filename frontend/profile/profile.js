@@ -1,3 +1,9 @@
+const viewer = localStorage.getItem("username");
+
+if(!viewer){
+window.location.href = "http://localhost:3000/login/login.html";
+}
+
 function goHome(){
 window.location.href="http://localhost:3000/homepage/homepage.html";
 }
@@ -10,7 +16,7 @@ function showfollowers(){
 window.location.href="http://localhost:3000/follower/follower.html";
 }
 
-const viewer = localStorage.getItem("username");
+// const viewer = localStorage.getItem("username");
 
 /* ================= GET USERNAME FROM URL ================= */
 
@@ -245,6 +251,18 @@ ${images}
 container.appendChild(card);
 
 });
+
+}
+function logout(){
+
+// remove stored user
+localStorage.removeItem("username");
+
+// optional: clear everything
+// localStorage.clear();
+
+// redirect to login page
+window.location.href = "http://localhost:3000/login/login.html";
 
 }
 
